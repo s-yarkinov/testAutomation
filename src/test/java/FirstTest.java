@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest {
     private AppiumDriver driver;
@@ -169,7 +170,50 @@ public class FirstTest {
                 "Java (programming language)",
                 "We see unexpected title"
                 );
+    }
 
+    @Test
+    public void cancelSearch(){
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find element",
+                1
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search Wikipedia",
+                "Search Field not equals 'Search Wikipedia'"
+        );
+
+        waiteForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Text field not found",
+                15
+        );
+
+        List<WebElement> listResultElements = waitForElements(
+                By.className("android.view.ViewGroup"),
+                "Results is empty or elements not found",
+                10
+        );
+
+        Assert.assertTrue("No search results found",listResultElements.size()>1);
+
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Element X not found",
+                3
+        );
+
+        listResultElements = waitForElements(
+                By.className("android.view.ViewGroup"),
+                "Results is empty or elements not found",
+                10
+        );
+
+        Assert.assertTrue("Canceling the search didn't work", listResultElements.size() == 1);
     }
 
 
@@ -181,6 +225,12 @@ public class FirstTest {
                 ExpectedConditions.presenceOfElementLocated(by)
         );
     }
+
+    private List<WebElement> waitForElements(By by, String err_msg, long timeoutSeconds) {
+        List<WebElement> elements = driver.findElements(by);
+        return elements;
+    }
+
 
     private WebElement waitForElementPresent(By by, String error_msg) {
         return  waitForElement(by, error_msg, 5);
