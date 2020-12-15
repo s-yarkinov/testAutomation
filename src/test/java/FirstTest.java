@@ -136,6 +136,42 @@ public class FirstTest {
 
     }
 
+    @Test
+    public void testHasTextInSearchField() {
+
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find element",
+                1
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search Wikipedia",
+                "Search Field not equals 'Search Wikipedia'"
+        );
+
+        waiteForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Text field not found",
+                3
+        );
+
+        waiteForElementAndClick(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]"),
+                "Result not found",
+                3
+        );
+
+        assertElementHasText(
+                By.xpath("//android.view.View/android.view.View[1]/android.view.View[1]"),
+                "Java (programming language)",
+                "We see unexpected title"
+                );
+
+    }
+
 
 
     private WebElement waitForElement(By by, String error_msg, long timeoutSeconds) {
@@ -174,6 +210,21 @@ public class FirstTest {
         WebElement element = waitForElementPresent(by, err_msg);
         element.clear();
         return element;
+    }
+
+    private void assertElementHasText(By by, String expectedValue, String err_msg) {
+        WebElement element = waitForElement(
+                by,
+                "Element " + by + " not found",
+                5
+        );
+
+        String obtainText = element.getAttribute("text");
+        Assert.assertEquals(
+                "Element does not contain " + expectedValue,
+                expectedValue,
+                obtainText
+        );
     }
 
 }
