@@ -216,6 +216,41 @@ public class FirstTest {
         Assert.assertTrue("Canceling the search didn't work", listResultElements.size() == 1);
     }
 
+    @Test
+    public void checkingSearchResults()
+    {
+        String searchText = "Java";
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find element",
+                1
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search Wikipedia",
+                "Search Field not equals 'Search Wikipedia'"
+        );
+
+        waiteForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                searchText,
+                "Text field not found",
+                15
+        );
+
+        List<WebElement> searchResult = waitForElements(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Results not found",
+                15
+        );
+
+        for (WebElement webElement : searchResult) {
+            Assert.assertTrue("The results does not contain '" + searchText + "'", webElement.
+                    getAttribute("text").contains(searchText));
+        }
+    }
+
 
 
     private WebElement waitForElement(By by, String error_msg, long timeoutSeconds) {
