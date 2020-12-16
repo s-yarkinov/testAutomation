@@ -1,12 +1,11 @@
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.Description;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
@@ -15,12 +14,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
-import java.time.Duration;
 import java.util.List;
 
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.PointOption.point;
-import static java.time.Duration.ofSeconds;
+import static java.time.Duration.ofMillis;
 
 
 public class FirstTest {
@@ -35,15 +33,16 @@ public class FirstTest {
         cap.setCapability("automationName", "Appium");
         cap.setCapability("appPackage", "org.wikipedia");
         cap.setCapability("appActivity", "main.MainActivity");
-        cap.setCapability("app", "/Users/macmini2/IdeaProjects/testAutomation/apps/org.wikipedia_50336.apk");
+        cap.setCapability("fullReset", "false");
+        cap.setCapability("app", "/Users/macmini2/IdeaProjects/testAutomation/apps/org.wikipedia.apk");
 
         driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), cap);
 
-        waiteForElementAndClick(
-                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
-                "Skip button not found",
-                5
-        );
+//        waiteForElementAndClick(
+//                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
+//                "Skip button not found",
+//                5
+//        );
     }
 
     @After
@@ -132,7 +131,7 @@ public class FirstTest {
                 3
         );
         WebElement titleElement = waitForElement(
-                By.xpath("//android.view.View/android.view.View[1]/android.view.View[1]"),
+                By.id("org.wikipedia:id/view_page_title_text"),
                 "Title desc not found",
                 15
         );
@@ -158,7 +157,7 @@ public class FirstTest {
 
         assertElementHasText(
                 By.id("org.wikipedia:id/search_src_text"),
-                "Search Wikipedia",
+                "Search…",
                 "Search Field not equals 'Search Wikipedia'"
         );
 
@@ -176,7 +175,7 @@ public class FirstTest {
         );
 
         assertElementHasText(
-                By.xpath("//android.view.View/android.view.View[1]/android.view.View[1]"),
+                By.id("org.wikipedia:id/view_page_title_text"),
                 "Java (programming language)",
                 "We see unexpected title"
                 );
@@ -192,7 +191,7 @@ public class FirstTest {
 
         assertElementHasText(
                 By.id("org.wikipedia:id/search_src_text"),
-                "Search Wikipedia",
+                "Search…",
                 "Search Field not equals 'Search Wikipedia'"
         );
 
@@ -217,13 +216,17 @@ public class FirstTest {
                 3
         );
 
-        listResultElements = waitForElements(
-                By.className("android.view.ViewGroup"),
-                "Results is empty or elements not found",
-                10
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Element X not found",
+                3
         );
 
-        Assert.assertTrue("Canceling the search didn't work", listResultElements.size() == 1);
+        waiteForElementNotPresent(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Element X still on page",
+                3
+        );
     }
 
     @Test
@@ -238,7 +241,7 @@ public class FirstTest {
 
         assertElementHasText(
                 By.id("org.wikipedia:id/search_src_text"),
-                "Search Wikipedia",
+                "Search…",
                 "Search Field not equals 'Search Wikipedia'"
         );
 
@@ -271,19 +274,19 @@ public class FirstTest {
 
         assertElementHasText(
                 By.id("org.wikipedia:id/search_src_text"),
-                "Search Wikipedia",
+                "Search…",
                 "Search Field not equals 'Search Wikipedia'"
         );
 
         waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
-                "Java",
+                "Appium",
                 "Text field not found",
                 15
         );
 
         waiteForElementAndClick(
-                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]"),
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/page_list_item_title'][@text = 'Appium']"),
                 "Result not found",
                 3
         );
@@ -293,10 +296,11 @@ public class FirstTest {
                 15
         );
 
-        swipeUp(2);
-        swipeUp(2);
-        swipeUp(2);
-
+        swipeUpToFindElement(
+                By.id("org.wikipedia:id/page_external_link"),
+                "View article in browser not found",
+                15
+        );
 
     }
 
@@ -312,6 +316,7 @@ public class FirstTest {
 
     private List<WebElement> waitForElements(By by, String err_msg, long timeoutSeconds) {
         List<WebElement> elements = driver.findElements(by);
+        System.out.println(elements.size());
         return elements;
     }
 
@@ -371,7 +376,30 @@ public class FirstTest {
         int start_y = (int)(size.height * 0.8);
         int end_y = (int)(size.height * 0.2);
 
-        action.press(point(x, start_y)).waitAction(waitOptions(ofSeconds(timeOfSwipe))).
+        action.press(point(x, start_y)).waitAction(waitOptions(ofMillis(timeOfSwipe))).
                 moveTo(point(x, end_y)).release().perform();
     }
+
+    protected void swipeUpQuick() {
+        swipeUp(200);
+    }
+
+    protected void swipeUpToFindElement(By by, String err_msg, int maxSwipes) {
+        int already_swipe = 0;
+        while (driver.findElements(by).size() == 0) {
+
+            if (already_swipe > maxSwipes)
+            {
+                waitForElement(
+                        by,
+                        "Cannot find element by swiping up.\n" + err_msg,
+                        0
+                );
+                return;
+            }
+            swipeUpQuick();
+            ++already_swipe;
+        }
+    }
+
 }
