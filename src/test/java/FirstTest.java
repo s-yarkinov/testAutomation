@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.security.PrivilegedAction;
 import java.util.List;
 import java.util.Locale;
 
@@ -433,6 +434,37 @@ public class FirstTest {
 
     }
 
+    @Test
+    public void testAmountOfEmptySearch() {
+        String searchLine = "as2d1as2d1a2s1d2";
+        String emptyResultLabel  = "//*[@text = 'No results found']";
+        String searchResults = "//*[@resource-id = 'org.wikipedia:id/fragment_search_results']//*[@resource-id = 'org.wikipedia:id/page_list_item_container']";
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find element",
+                1
+        );
+
+        waiteForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                searchLine,
+                "Text field not found",
+                15
+        );
+
+        waitForElementPresent(
+                By.xpath(emptyResultLabel),
+                "Not found 'Empty results label'"
+        );
+
+        assertElementNotPresent(
+                By.xpath(searchResults),
+                "We found some results by request " + searchLine
+        );
+    }
+
+
+
 
 
     private WebElement waitForElement(By by, String error_msg, long timeoutSeconds) {
@@ -546,5 +578,19 @@ public class FirstTest {
                 moveTo(point(x_left, middle_y)).
                 release().
                 perform();
+    }
+
+    private int getAmountElements(By by) {
+        List<WebElement> listOfElement = driver.findElements(by);
+        return listOfElement.size();
+    }
+
+
+    private void assertElementNotPresent(By by, String err_msg) {
+        int amountElements = getAmountElements(by);
+        if(amountElements > 0) {
+            String default_msg = "An element '" + by.toString() + "' supposed to be not present\n";
+            throw new AssertionError(default_msg + " " + err_msg);
+        }
     }
 }
