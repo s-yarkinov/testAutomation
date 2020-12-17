@@ -402,6 +402,37 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testAmountOfNotEmptySearch() {
+        String searchLine = "Linkin park";
+//        String searchLine = "as2d1a2sd1a2s1d2as1d2asd";
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find element",
+                1
+        );
+
+        waiteForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                searchLine,
+                "Text field not found",
+                15
+        );
+
+        driver.hideKeyboard();
+
+        List<WebElement> search_result = waitForElements(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/fragment_search_results']//*[@resource-id = 'org.wikipedia:id/page_list_item_container']"),
+                "Search result is empty: " + searchLine
+        );
+
+        Assert.assertTrue(
+                "No articles found",
+                search_result.size() > 0
+        );
+
+    }
+
 
 
     private WebElement waitForElement(By by, String error_msg, long timeoutSeconds) {
@@ -414,7 +445,6 @@ public class FirstTest {
 
     private List<WebElement> waitForElements(By by, String err_msg) {
         List<WebElement> elements = driver.findElements(by);
-        System.out.println(elements.size());
         return elements;
     }
 
