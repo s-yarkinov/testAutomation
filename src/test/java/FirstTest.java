@@ -551,7 +551,171 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void saveTwoArticles(){
+        String readingListName = "Test1";
+        String firstSubtitle = "//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]";
+        String secondSubtitle = "//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Programming language')]";
 
+        By titleOfArticle = By.id("org.wikipedia:id/view_page_title_text");
+
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find element",
+                1
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search…",
+                "Search Field not equals 'Search Wikipedia'"
+        );
+
+        waiteForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Text field not found",
+                15
+        );
+
+        waiteForElementAndClick(
+                By.xpath(firstSubtitle),
+                "Element not found: " + firstSubtitle,
+                3
+        );
+
+        String firstArticleTitle = waiteElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text"
+        );
+
+
+        waiteForElementAndClick(
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+                "Element 'More option' not found",
+                5
+        );
+
+        waiteForElementAndClick(
+                By.xpath("//*[@text = 'Add to reading list']"),
+                "'Add to read list' element not found",
+                5
+        );
+
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/onboarding_button"),
+                "Button 'GOT IT' not found",
+                5
+        );
+
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/text_input"),
+                "'Text input' element not found"
+        );
+
+        waiteForElementAndSendKeys(
+                By.id("org.wikipedia:id/text_input"),
+                readingListName,
+                "'Text input' element not found",
+                5
+        );
+
+        waiteForElementAndClick(
+                By.id("android:id/button1"),
+                "Not found 'OK' button",
+                5
+        );
+
+        waiteForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc=\"Navigate up\"]"),
+                "Element 'X' not found",
+                5
+        );
+
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find element",
+                1
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search…",
+                "Search Field not equals 'Search Wikipedia'"
+        );
+
+        waiteForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Text field not found",
+                15
+        );
+
+        waiteForElementAndClick(
+                By.xpath(secondSubtitle),
+                "Element not found: " + secondSubtitle,
+                3
+        );
+
+        String secondArticleTitle = waiteElementAndGetAttribute(
+                titleOfArticle,
+                "text"
+        );
+
+        waiteForElementAndClick(
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+                "Element 'More option' not found",
+                5
+        );
+
+        waiteForElementAndClick(
+                By.xpath("//*[@text = 'Add to reading list']"),
+                "'Add to read list' element not found",
+                5
+        );
+
+        waiteForElementAndClick(
+                By.xpath("//*[@text = '" + readingListName + "']"),
+                "Reading list not found",
+                5
+        );
+
+        waiteForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc=\"Navigate up\"]"),
+                "Element 'X' not found",
+                5
+        );
+
+        waiteForElementAndClick(
+                By.xpath("//android.widget.FrameLayout[@content-desc=\"My lists\"]"),
+                "'My list' element not found",
+                5
+        );
+
+        waiteForElementAndClick(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/item_title'][@text = '" + readingListName +"']"),
+                "List not found",
+                5
+        );
+
+        swipeToLeftElement(
+                By.xpath("//*[@text = '" + firstArticleTitle +"']/../../.."),
+                "Article '" + firstArticleTitle + "' not found",
+                5
+        );
+
+        waiteForElementAndClick(
+                By.xpath("//*[@text = '" + secondArticleTitle +"']"),
+                "Article '" + secondArticleTitle + "' not found",
+                15
+        );
+
+        assertElementHasText(
+                titleOfArticle,
+                secondArticleTitle,
+                "The title of the article is different"
+        );
+    }
 
 
 
