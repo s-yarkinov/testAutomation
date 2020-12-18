@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.Description;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,8 +22,7 @@ import java.util.Locale;
 
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.PointOption.point;
-import static java.time.Duration.ofMillis;
-import static java.time.Duration.ofMinutes;
+import static java.time.Duration.*;
 
 
 public class FirstTest {
@@ -459,7 +459,92 @@ public class FirstTest {
 
         assertElementNotPresent(
                 By.xpath(searchResults),
-                "We found some results by request " + searchLine
+                "We found some results by request: " + searchLine
+        );
+    }
+
+    @Test
+    public void changeScreenOrientationOnSearchResults(){
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find element",
+                1
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search…",
+                "Search Field not equals 'Search Wikipedia'"
+        );
+
+        waiteForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Text field not found",
+                15
+        );
+
+        waiteForElementAndClick(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]"),
+                "Result not found",
+                3
+        );
+
+        String title_before_ratation = waiteElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text"
+        );
+
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+
+        String title_after_ratation = waiteElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text"
+        );
+
+        Assert.assertEquals("Article have been changed after rotation", title_before_ratation, title_after_ratation);
+
+        driver.rotate(ScreenOrientation.PORTRAIT);
+
+        String title_after_second_rotate = waiteElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text"
+        );
+    }
+
+    @Test
+    public void testChechSearchInBackground() {
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find element",
+                1
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search…",
+                "Search Field not equals 'Search Wikipedia'"
+        );
+
+        waiteForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Text field not found",
+                15
+        );
+
+        driver.hideKeyboard();
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]"),
+                "Result not found"
+        );
+
+        driver.runAppInBackground(ofSeconds(5));
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]"),
+                "Cannot find article after returning in background"
         );
     }
 
@@ -592,5 +677,13 @@ public class FirstTest {
             String default_msg = "An element '" + by.toString() + "' supposed to be not present\n";
             throw new AssertionError(default_msg + " " + err_msg);
         }
+    }
+
+    private String waiteElementAndGetAttribute(By by, String attribute) {
+        return waitForElement(
+                by,
+                "Element not found: " + by.toString(),
+                15
+        ).getAttribute(attribute);
     }
 }
