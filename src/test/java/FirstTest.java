@@ -44,7 +44,6 @@ public class FirstTest {
         cap.setCapability("app", "/Users/macmini2/IdeaProjects/testAutomation/apps/org.wikipedia.apk");
 
         driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), cap);
-        driver.rotate(ScreenOrientation.PORTRAIT);
     }
 
     @After
