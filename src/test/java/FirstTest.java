@@ -718,7 +718,52 @@ public class FirstTest {
     }
 
 
+    @Test
+    public void testTitleIsPresent(){
+        By titleOfArticle = By.id("org.wikipedia:id/view_page_title_text");
+        String firstSubtitle = "//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]";
 
+
+        waiteForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find element",
+                1
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search…",
+                "Search Field not equals 'Search Wikipedia'"
+        );
+
+        waiteForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Text field not found",
+                15
+        );
+
+        waiteForElementAndClick(
+                By.xpath(firstSubtitle),
+                "Element not found: " + firstSubtitle,
+                3
+        );
+
+        assertElementPresent(titleOfArticle, "Article title not found");
+    }
+
+
+    private WebElement assertElementPresent(By by, String err_msg) {
+
+        try {
+            driver.findElement(by);
+            return driver.findElement(by);
+        }
+        catch (Exception e)
+        {
+            throw new AssertionError(err_msg);
+        }
+    }
 
 
     private WebElement waitForElement(By by, String error_msg, long timeoutSeconds) {
