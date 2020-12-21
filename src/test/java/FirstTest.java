@@ -44,6 +44,7 @@ public class FirstTest {
         cap.setCapability("app", "/Users/macmini2/IdeaProjects/testAutomation/apps/org.wikipedia.apk");
 
         driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), cap);
+        driver.rotate(ScreenOrientation.PORTRAIT);
     }
 
     @After
@@ -753,7 +754,7 @@ public class FirstTest {
     }
 
 
-    private WebElement assertElementPresent(By by, String err_msg) {
+    protected WebElement assertElementPresent(By by, String err_msg) {
 
         try {
             driver.findElement(by);
@@ -784,7 +785,7 @@ public class FirstTest {
         return  waitForElement(by, error_msg, 5);
     }
 
-    private WebElement waiteForElementAndClick(By by, String err_msg, long timeoutSeconds){
+    protected WebElement waiteForElementAndClick(By by, String err_msg, long timeoutSeconds){
         WebElement element = waitForElementPresent(by, err_msg);
         element.click();
         return element;
@@ -798,7 +799,7 @@ public class FirstTest {
 //        action.longPress(LongPressOptions.longPressOptions());
 //    }
 
-    private WebElement waiteForElementAndSendKeys(By by, String value, String err_msg, long timeoutSeconds){
+    protected WebElement waiteForElementAndSendKeys(By by, String value, String err_msg, long timeoutSeconds){
         WebElement element = waitForElementPresent(by, err_msg);
         element.sendKeys(value);
         return element;
@@ -818,7 +819,7 @@ public class FirstTest {
         return element;
     }
 
-    private void assertElementHasText(By by, String expectedValue, String err_msg) {
+    protected void assertElementHasText(By by, String expectedValue, String err_msg) {
         WebElement element = waitForElement(
                 by,
                 "Element " + by + " not found",
