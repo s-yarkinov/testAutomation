@@ -32,23 +32,9 @@ public class testSearch extends CoreTestCase {
     public void testCancelSearch() throws InterruptedException {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.initSearchInput();
-        Thread.sleep(10000);
-
-//        mainPageObject.waiteForElementAndClick(
-//                By.id("org.wikipedia:id/search_container"),
-//                "Cannot find element",
-//                1
-//        );
-//        mainPageObject.waiteForElementAndClick(
-//                By.xpath("//android.view.ViewGroup/android.widget.ImageButton"),
-//                "Back button not found",
-//                3
-//        );
-//
-//        mainPageObject.waiteForElementNotPresent(
-//                By.xpath("//android.view.ViewGroup/android.widget.ImageButton"),
-//                "X is still present on the screen",
-//                5);
+        searchPageObject.waiteForCancelButtonToAppear();
+        searchPageObject.clickCancelSearch();
+        searchPageObject.waiteForCancelButtonToDisappear();
     }
 
     @Test

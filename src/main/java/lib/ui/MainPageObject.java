@@ -52,7 +52,7 @@ public class MainPageObject {
 
 
     public WebElement waitForElementPresent(By by, String error_msg) {
-        return  waitForElement(by, error_msg, 5);
+        return  waitForElement(by, error_msg, 15);
     }
 
     public WebElement waiteForElementAndClick(By by, String err_msg, long timeoutSeconds){
