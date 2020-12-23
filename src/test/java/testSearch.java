@@ -1,59 +1,23 @@
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.touch.LongPressOptions;
-import io.appium.java_client.touch.WaitOptions;
-import org.junit.After;
+import lib.CoreTestCase;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.Description;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.net.URL;
-import java.security.PrivilegedAction;
 import java.util.List;
-import java.util.Locale;
-
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.PointOption.point;
 import static java.time.Duration.*;
 
 
-public class FirstTest {
-    private AppiumDriver driver;
-
-    @Before
-    public void setUp() throws Exception {
-        DesiredCapabilities cap = new DesiredCapabilities();
-        cap.setCapability("platformName", "Android");
-        cap.setCapability("deviceName", "emulator-5554");
-        cap.setCapability("platformVersion", "7.1.1");
-        cap.setCapability("automationName", "Appium");
-        cap.setCapability("appPackage", "org.wikipedia");
-        cap.setCapability("appActivity", "main.MainActivity");
-        cap.setCapability("fullReset", "false");
-        cap.setCapability("app", "/Users/macmini2/IdeaProjects/testAutomation/apps/org.wikipedia.apk");
-
-        driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), cap);
-        driver.rotate(ScreenOrientation.PORTRAIT);
-    }
-
-    @After
-    public void tearDown(){
-        driver.quit();
-    }
+public class testSearch extends CoreTestCase {
 
     @Test
-    public void firstTestRun() throws InterruptedException {
+    public void testFirstTestRun() {
 
         waiteForElementAndClick(
                 By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
@@ -92,7 +56,7 @@ public class FirstTest {
     }
 
     @Test
-    public void clearTextField() throws InterruptedException {
+    public void testClearTextField() throws InterruptedException {
         waiteForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
                 "Cannot find element",
@@ -231,7 +195,7 @@ public class FirstTest {
     }
 
     @Test
-    public void checkingSearchResults()
+    public void testCheckingSearchResults()
     {
         String searchText = "Java";
         waiteForElementAndClick(
@@ -468,7 +432,7 @@ public class FirstTest {
     }
 
     @Test
-    public void changeScreenOrientationOnSearchResults(){
+    public void testChangeScreenOrientationOnSearchResults(){
         waiteForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
                 "Cannot find element",
@@ -553,7 +517,7 @@ public class FirstTest {
     }
 
     @Test
-    public void saveTwoArticles(){
+    public void testSaveTwoArticles(){
         String readingListName = "Test1";
         String firstSubtitle = "//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]";
         String secondSubtitle = "//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Programming language')]";
