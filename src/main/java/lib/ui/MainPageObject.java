@@ -69,7 +69,7 @@ public class MainPageObject {
 //        action.longPress(LongPressOptions.longPressOptions());
 //    }
 
-    public WebElement waiteForElementAndSendKeys(By by, String value, String err_msg, long timeoutSeconds){
+    public WebElement waiteForElementAndSendKeys(By by, String value, String err_msg){
         WebElement element = waitForElementPresent(by, err_msg);
         element.sendKeys(value);
         return element;

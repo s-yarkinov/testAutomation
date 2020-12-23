@@ -1,5 +1,6 @@
 import lib.CoreTestCase;
 import lib.ui.MainPageObject;
+import lib.ui.SearchPageObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -20,42 +21,34 @@ public class testSearch extends CoreTestCase {
 
 
     @Test
-    public void testFirstTestRun() {
-
-        mainPageObject.waiteForElementAndClick(
-                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
-                "Cannot find 'Search Wikipedia' element",
-                1
-        );
-        mainPageObject.waiteForElementAndSendKeys(
-                By.xpath("//android.widget.LinearLayout/android.widget.EditText"),
-                "Java",
-                "Cannot SendKeys to element 'SearchField'",
-                1
-        );
-        mainPageObject.waitForElementPresent(
-                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]"),
-                "Result not found"
-        );
+    public void testSearch() {
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Java");
+        searchPageObject.waiteForSearchResult("Object-oriented programming language");
     }
 
     @Test
-    public void testCancelSearch() {
-        mainPageObject.waiteForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find element",
-                1
-        );
-        mainPageObject.waiteForElementAndClick(
-                By.xpath("//android.view.ViewGroup/android.widget.ImageButton"),
-                "Back button not found",
-                3
-        );
+    public void testCancelSearch() throws InterruptedException {
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject.initSearchInput();
+        Thread.sleep(10000);
 
-        mainPageObject.waiteForElementNotPresent(
-                By.xpath("//android.view.ViewGroup/android.widget.ImageButton"),
-                "X is still present on the screen",
-                5);
+//        mainPageObject.waiteForElementAndClick(
+//                By.id("org.wikipedia:id/search_container"),
+//                "Cannot find element",
+//                1
+//        );
+//        mainPageObject.waiteForElementAndClick(
+//                By.xpath("//android.view.ViewGroup/android.widget.ImageButton"),
+//                "Back button not found",
+//                3
+//        );
+//
+//        mainPageObject.waiteForElementNotPresent(
+//                By.xpath("//android.view.ViewGroup/android.widget.ImageButton"),
+//                "X is still present on the screen",
+//                5);
     }
 
     @Test
@@ -69,8 +62,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Java",
-                "Text field not found",
-                3
+                "Text field not found"
         );
 
         mainPageObject.waitForElementAndClear(
@@ -90,8 +82,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Java",
-                "Text field not found",
-                3
+                "Text field not found"
         );
 
         mainPageObject.waiteForElementAndClick(
@@ -133,8 +124,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Java",
-                "Text field not found",
-                3
+                "Text field not found"
         );
 
         mainPageObject.waiteForElementAndClick(
@@ -167,8 +157,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Java",
-                "Text field not found",
-                15
+                "Text field not found"
         );
 
         List<WebElement> listResultElements = mainPageObject.waitForElements(
@@ -216,8 +205,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 searchText,
-                "Text field not found",
-                15
+                "Text field not found"
         );
 
         List<WebElement> searchResult = mainPageObject.waitForElements(
@@ -248,8 +236,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Appium",
-                "Text field not found",
-                15
+                "Text field not found"
         );
 
         mainPageObject.waiteForElementAndClick(
@@ -290,8 +277,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Java",
-                "Text field not found",
-                15
+                "Text field not found"
         );
 
         mainPageObject.waiteForElementAndClick(
@@ -333,8 +319,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/text_input"),
                 readingListName,
-                "'Text input' element not found",
-                5
+                "'Text input' element not found"
         );
 
         mainPageObject.waiteForElementAndClick(
@@ -387,8 +372,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 searchLine,
-                "Text field not found",
-                15
+                "Text field not found"
         );
 
         driver.hideKeyboard();
@@ -419,8 +403,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 searchLine,
-                "Text field not found",
-                15
+                "Text field not found"
         );
 
         mainPageObject.waitForElementPresent(
@@ -451,8 +434,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Java",
-                "Text field not found",
-                15
+                "Text field not found"
         );
 
         mainPageObject.waiteForElementAndClick(
@@ -500,8 +482,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Java",
-                "Text field not found",
-                15
+                "Text field not found"
         );
 
         driver.hideKeyboard();
@@ -542,8 +523,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Java",
-                "Text field not found",
-                15
+                "Text field not found"
         );
 
         mainPageObject.waiteForElementAndClick(
@@ -584,8 +564,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/text_input"),
                 readingListName,
-                "'Text input' element not found",
-                5
+                "'Text input' element not found"
         );
 
         mainPageObject.waiteForElementAndClick(
@@ -615,8 +594,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Java",
-                "Text field not found",
-                15
+                "Text field not found"
         );
 
         mainPageObject.waiteForElementAndClick(
@@ -707,8 +685,7 @@ public class testSearch extends CoreTestCase {
         mainPageObject.waiteForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Java",
-                "Text field not found",
-                15
+                "Text field not found"
         );
 
         mainPageObject.waiteForElementAndClick(
