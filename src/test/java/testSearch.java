@@ -1,6 +1,8 @@
 import lib.CoreTestCase;
+import lib.ui.ArticlePageObject;
 import lib.ui.MainPageObject;
 import lib.ui.SearchPageObject;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -23,6 +25,7 @@ public class testSearch extends CoreTestCase {
     @Test
     public void testSearch() {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
+
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
         searchPageObject.waiteForSearchResult("Object-oriented programming language");
@@ -31,6 +34,7 @@ public class testSearch extends CoreTestCase {
     @Test
     public void testCancelSearch() throws InterruptedException {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
+
         searchPageObject.initSearchInput();
         searchPageObject.waiteForCancelButtonToAppear();
         searchPageObject.clickCancelSearch();
@@ -59,30 +63,18 @@ public class testSearch extends CoreTestCase {
 
     @Test
     public void testCompareArticleTitle() {
-        mainPageObject.waiteForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find element",
-                1
-        );
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
 
-        mainPageObject.waiteForElementAndSendKeys(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Java",
-                "Text field not found"
-        );
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Java");
+        searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
 
-        mainPageObject.waiteForElementAndClick(
-                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]"),
-                "Result not found",
-                3
-        );
-        WebElement titleElement = mainPageObject.waitForElement(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "Title desc not found",
-                15
-        );
+        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        articlePageObject.waiteForTitleElement();
 
-        String articleTitle = titleElement.getAttribute("text");
+
+
+        String articleTitle = articlePageObject.getArticleTitle();
 
         Assert.assertEquals(
                 "We see unexpected title",
@@ -207,41 +199,14 @@ public class testSearch extends CoreTestCase {
 
     @Test
     public void testSwipeArticle(){
-        mainPageObject.waiteForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find element",
-                1
-        );
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Appium");
+        searchPageObject.clickByArticleWithSubstring("Appium");
 
-        mainPageObject.assertElementHasText(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Search…",
-                "Search Field not equals 'Search Wikipedia'"
-        );
-
-        mainPageObject.waiteForElementAndSendKeys(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Appium",
-                "Text field not found"
-        );
-
-        mainPageObject.waiteForElementAndClick(
-                By.xpath("//*[@resource-id = 'org.wikipedia:id/page_list_item_title'][@text = 'Appium']"),
-                "Result not found",
-                3
-        );
-        WebElement titleElement = mainPageObject.waitForElement(
-                By.xpath("//android.view.View/android.view.View[1]/android.view.View[1]"),
-                "Title desc not found",
-                15
-        );
-
-        mainPageObject.swipeUpToFindElement(
-                By.id("org.wikipedia:id/page_external_link"),
-                "View article in browser not found",
-                15
-        );
-
+        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        articlePageObject.waiteForTitleElement();
+        articlePageObject.swipeToFooter();
     }
 
     @Test

@@ -33,6 +33,11 @@ public class SearchPageObject extends MainPageObject{
         this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search result with substring: '" + substring + "'");
     }
 
+    public void clickByArticleWithSubstring(String substring) {
+        String search_result_xpath = getSearchResultElement(substring);
+        this.waiteForElementAndClick(By.xpath(search_result_xpath), "Cannot find and click search result with substring: '" + substring + "'", 10);
+    }
+
     public void waiteForCancelButtonToAppear() {
         this.waitForElementPresent(By.id(SEARCH_CANCEL_BUTTON), "Cannot find Cancel button");
     }
