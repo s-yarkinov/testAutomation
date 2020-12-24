@@ -1,7 +1,5 @@
 import lib.CoreTestCase;
-import lib.ui.ArticlePageObject;
-import lib.ui.MainPageObject;
-import lib.ui.SearchPageObject;
+import lib.ui.*;
 import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
 import org.junit.Test;
@@ -211,103 +209,25 @@ public class testSearch extends CoreTestCase {
 
     @Test
     public void testSaveArticle() {
+        String name_of_folder = "test";
 
-        String readingListName = "test";
-        mainPageObject.waiteForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find element",
-                1
-        );
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Java");
+        searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
 
-        mainPageObject.assertElementHasText(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Search…",
-                "Search Field not equals 'Search Wikipedia'"
-        );
+        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        articlePageObject.waiteForTitleElement();
+        String article_title = articlePageObject.getArticleTitle();
+        articlePageObject.addArticleToMyList(name_of_folder);
+        articlePageObject.closeArticle();
 
-        mainPageObject.waiteForElementAndSendKeys(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Java",
-                "Text field not found"
-        );
+        NavigationUI navigationUI = new NavigationUI(driver);
+        navigationUI.clickMyList();
 
-        mainPageObject.waiteForElementAndClick(
-                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]"),
-                "Result not found",
-                3
-        );
-
-        mainPageObject.waitForElement(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "Title desc not found",
-                15
-        );
-
-
-        mainPageObject.waiteForElementAndClick(
-                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
-                "Element 'More option' not found",
-                5
-        );
-
-        mainPageObject.waiteForElementAndClick(
-                By.xpath("//*[@text = 'Add to reading list']"),
-                "'Add to read list' element not found",
-                5
-        );
-
-        mainPageObject.waiteForElementAndClick(
-                By.id("org.wikipedia:id/onboarding_button"),
-                "Button 'GOT IT' not found",
-                5
-        );
-
-        mainPageObject.waitForElementAndClear(
-                By.id("org.wikipedia:id/text_input"),
-                "'Text input' element not found"
-        );
-
-        mainPageObject.waiteForElementAndSendKeys(
-                By.id("org.wikipedia:id/text_input"),
-                readingListName,
-                "'Text input' element not found"
-        );
-
-        mainPageObject.waiteForElementAndClick(
-                By.id("android:id/button1"),
-                "Not found 'OK' button",
-                5
-        );
-
-        mainPageObject.waiteForElementAndClick(
-                By.xpath("//android.widget.ImageButton[@content-desc=\"Navigate up\"]"),
-                "Element 'X' not found",
-                5
-        );
-
-        mainPageObject.waiteForElementAndClick(
-                By.xpath("//android.widget.FrameLayout[@content-desc=\"My lists\"]"),
-                "'My list' element not found",
-                5
-        );
-
-        mainPageObject.waiteForElementAndClick(
-                By.xpath("//*[@resource-id = 'org.wikipedia:id/item_title'][@text = '" + readingListName +"']"),
-                "List not found",
-                5
-        );
-
-        mainPageObject.swipeToLeftElement(
-                By.id("org.wikipedia:id/page_list_item_container"),
-                "Saved article not found",
-                5
-        );
-
-        mainPageObject.waiteForElementNotPresent(
-                By.id("org.wikipedia:id/page_list_item_container"),
-                "Article still in saved articles",
-                5
-        );
+        MyListPageObject myListPageObject = new MyListPageObject(driver);
+        myListPageObject.openFolderByName(name_of_folder);
+        myListPageObject.swipeByArticleToDelete(article_title);
     }
 
     @Test

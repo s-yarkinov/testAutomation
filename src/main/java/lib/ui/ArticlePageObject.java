@@ -7,7 +7,13 @@ import org.openqa.selenium.WebElement;
 public class ArticlePageObject extends MainPageObject{
     private static final String
         ARTICLE_TITLE = "org.wikipedia:id/view_page_title_text",
-        FOOTER_ELEMENT = "org.wikipedia:id/page_external_link";
+        FOOTER_ELEMENT = "org.wikipedia:id/page_external_link",
+        OPTIONS_BUTTON = "//android.widget.ImageView[@content-desc='More options']",
+        ADD_TO_MY_LIST_BUTTON = "//*[@text = 'Add to reading list']",
+        ADD_TO_MY_LIST_OVERLAY = "org.wikipedia:id/onboarding_button",
+        MY_LIST_NAME_INPUT = "org.wikipedia:id/text_input",
+        MY_LIST_OK_BUTTON = "android:id/button1",
+        CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]";
 
 
     public ArticlePageObject(AppiumDriver driver) {
@@ -28,6 +34,51 @@ public class ArticlePageObject extends MainPageObject{
                 By.id(FOOTER_ELEMENT),
                 "Cannot find the end of article",
                 20
+        );
+    }
+
+    public void addArticleToMyList(String name_of_folder) {
+        this.waiteForElementAndClick(
+                By.xpath(OPTIONS_BUTTON),
+                "Element 'More option' not found",
+                5
+        );
+
+        this.waiteForElementAndClick(
+                By.xpath(ADD_TO_MY_LIST_BUTTON),
+                "'Add to read list' element not found",
+                5
+        );
+
+        this.waiteForElementAndClick(
+                By.id(ADD_TO_MY_LIST_OVERLAY),
+                "Button 'GOT IT' not found",
+                5
+        );
+
+        this.waitForElementAndClear(
+                By.id(MY_LIST_NAME_INPUT),
+                "'Text input' element not found"
+        );
+
+        this.waiteForElementAndSendKeys(
+                By.id(MY_LIST_NAME_INPUT),
+                name_of_folder,
+                "'Text input' element not found"
+        );
+
+        this.waiteForElementAndClick(
+                By.id(MY_LIST_OK_BUTTON),
+                "Not found 'OK' button",
+                5
+        );
+    }
+
+    public void closeArticle() {
+        this.waiteForElementAndClick(
+                By.xpath(CLOSE_ARTICLE_BUTTON),
+                "Element 'X' not found",
+                5
         );
     }
 }
