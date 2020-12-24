@@ -13,7 +13,7 @@ public class NavigationUI extends MainPageObject{
     }
 
     public void clickMyList(){
-        this.waiteForElementAndClick(
+        this.waitForElementAndClick(
                 By.xpath(MY_LIST_LINK),
                 "'My list' element not found",
                 5

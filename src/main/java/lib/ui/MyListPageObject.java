@@ -23,7 +23,7 @@ public class MyListPageObject extends MainPageObject{
 
     public void openFolderByName(String name_of_folder) {
         String folder_name_xpath = getFolderXpathByName(name_of_folder);
-        this.waiteForElementAndClick(
+        this.waitForElementAndClick(
                 By.xpath(folder_name_xpath),
                 "Cannot find folder by name",
                 5
@@ -45,7 +45,7 @@ public class MyListPageObject extends MainPageObject{
 
     public void waitForArticleToDisappearByTitle(String article_title) {
         String article_xpath = getSavedArticleXpathByArticle(article_title);
-        this.waiteForElementNotPresent(
+        this.waitForElementNotPresent(
                 By.xpath(article_xpath),
                 "Saved article still present by title '" + article_title + "'",
                 5

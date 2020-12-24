@@ -10,6 +10,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
 
+import static java.time.Duration.ofSeconds;
+
 public class CoreTestCase extends TestCase {
     protected AppiumDriver driver;
     private static String appiumURl = "http://0.0.0.0:4723/wd/hub";
@@ -29,12 +31,24 @@ public class CoreTestCase extends TestCase {
         cap.setCapability("app", "/Users/macmini2/IdeaProjects/testAutomation/apps/org.wikipedia.apk");
 
         driver = new AndroidDriver(new URL(appiumURl), cap);
-        driver.rotate(ScreenOrientation.PORTRAIT);
+        this.rotateScreenPortrait();
     }
 
     @Override
     protected void tearDown() throws Exception {
         driver.quit();
         super.tearDown();
+    }
+
+    protected void rotateScreenLandscape(){
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+    }
+
+    protected void rotateScreenPortrait(){
+        driver.rotate(ScreenOrientation.PORTRAIT);
+    }
+
+    protected void runAppInBackground(int seconds) {
+        driver.runAppInBackground(ofSeconds(seconds));
     }
 }

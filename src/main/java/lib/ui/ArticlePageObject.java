@@ -38,19 +38,19 @@ public class ArticlePageObject extends MainPageObject{
     }
 
     public void addArticleToMyList(String name_of_folder) {
-        this.waiteForElementAndClick(
+        this.waitForElementAndClick(
                 By.xpath(OPTIONS_BUTTON),
                 "Element 'More option' not found",
                 5
         );
 
-        this.waiteForElementAndClick(
+        this.waitForElementAndClick(
                 By.xpath(ADD_TO_MY_LIST_BUTTON),
                 "'Add to read list' element not found",
                 5
         );
 
-        this.waiteForElementAndClick(
+        this.waitForElementAndClick(
                 By.id(ADD_TO_MY_LIST_OVERLAY),
                 "Button 'GOT IT' not found",
                 5
@@ -61,13 +61,13 @@ public class ArticlePageObject extends MainPageObject{
                 "'Text input' element not found"
         );
 
-        this.waiteForElementAndSendKeys(
+        this.waitForElementAndSendKeys(
                 By.id(MY_LIST_NAME_INPUT),
                 name_of_folder,
                 "'Text input' element not found"
         );
 
-        this.waiteForElementAndClick(
+        this.waitForElementAndClick(
                 By.id(MY_LIST_OK_BUTTON),
                 "Not found 'OK' button",
                 5
@@ -75,7 +75,7 @@ public class ArticlePageObject extends MainPageObject{
     }
 
     public void closeArticle() {
-        this.waiteForElementAndClick(
+        this.waitForElementAndClick(
                 By.xpath(CLOSE_ARTICLE_BUTTON),
                 "Element 'X' not found",
                 5

@@ -55,7 +55,7 @@ public class MainPageObject {
         return  waitForElement(by, error_msg, 15);
     }
 
-    public WebElement waiteForElementAndClick(By by, String err_msg, long timeoutSeconds){
+    public WebElement waitForElementAndClick(By by, String err_msg, long timeoutSeconds){
         WebElement element = waitForElementPresent(by, err_msg);
         element.click();
         return element;
@@ -69,13 +69,13 @@ public class MainPageObject {
 //        action.longPress(LongPressOptions.longPressOptions());
 //    }
 
-    public WebElement waiteForElementAndSendKeys(By by, String value, String err_msg){
+    public WebElement waitForElementAndSendKeys(By by, String value, String err_msg){
         WebElement element = waitForElementPresent(by, err_msg);
         element.sendKeys(value);
         return element;
     }
 
-    public boolean waiteForElementNotPresent(By by, String err_msg, long timeoutSeconds){
+    public boolean waitForElementNotPresent(By by, String err_msg, long timeoutSeconds){
         WebDriverWait wait = new WebDriverWait(driver, timeoutSeconds);
         wait.withMessage(err_msg + "\n");
         return wait.until(
@@ -172,7 +172,7 @@ public class MainPageObject {
         }
     }
 
-    public String waiteElementAndGetAttribute(By by, String attribute) {
+    public String waitElementAndGetAttribute(By by, String attribute) {
         return waitForElement(
                 by,
                 "Element not found: " + by.toString(),
