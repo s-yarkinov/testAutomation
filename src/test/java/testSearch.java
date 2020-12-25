@@ -88,53 +88,18 @@ public class testSearch extends CoreTestCase {
         );
     }
 
-
-
     @Test
-    public void cancelSearchTests(){
-
+    public void testCancel() {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
 
         searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-
-//        mainPageObject.waitForElementAndClick(
-//                By.id("org.wikipedia:id/search_container"),
-//                "Cannot find element",
-//                1
-//        );
-//
-//        mainPageObject.assertElementHasText(
-//                By.id("org.wikipedia:id/search_src_text"),
-//                "Search Wikipedia",
-//                "Search Field not equals 'Search Wikipedia'"
-//        );
-//
-//        mainPageObject.waitForElementAndSendKeys(
-//                By.id("org.wikipedia:id/search_src_text"),
-//                "Java",
-//                "Text field not found"
-//        );
-//
-//        List<WebElement> listResultElements = mainPageObject.waitForElements(
-//                By.className("android.view.ViewGroup"),
-//                "Results is empty or elements not found"
-//        );
-//
-//        assertTrue("No search results found",listResultElements.size()>1);
-//
-//        mainPageObject.waitForElementAndClick(
-//                By.id("org.wikipedia:id/search_close_btn"),
-//                "Element X not found",
-//                3
-//        );
-//
-//        listResultElements = mainPageObject.waitForElements(
-//                By.className("android.view.ViewGroup"),
-//                "Results is empty or elements not found"
-//        );
-//
-//        assertTrue("Canceling the search didn't work", listResultElements.size() == 1);
+        searchPageObject.typeSearchLine("java");
+        int amount_results = searchPageObject.getAmountOfFoundArticles();
+        System.out.println(amount_results);
+        assertTrue("Search result is empty", amount_results>0);
+        searchPageObject.clickCancelSearch();
+        amount_results = searchPageObject.getAmountOfFoundArticles();
+        assertTrue("Search results remained after canceling", amount_results==0);
     }
 
     @Test
