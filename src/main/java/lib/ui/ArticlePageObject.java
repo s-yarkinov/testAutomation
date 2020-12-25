@@ -20,12 +20,12 @@ public class ArticlePageObject extends MainPageObject{
         super(driver);
     }
 
-    public WebElement waiteForTitleElement() {
+    public WebElement waitForTitleElement() {
         return this.waitForElementPresent(By.id(ARTICLE_TITLE),"Cannot find article title");
     }
 
     public String getArticleTitle() {
-        WebElement title_element = waiteForTitleElement();
+        WebElement title_element = waitForTitleElement();
         return title_element.getAttribute("text");
     }
 

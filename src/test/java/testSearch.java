@@ -55,29 +55,6 @@ public class testSearch extends CoreTestCase {
     }
 
     @Test
-    public void testCompareArticleTitle() {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
-
-        searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
-
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
-        articlePageObject.waiteForTitleElement();
-
-
-
-        String articleTitle = articlePageObject.getArticleTitle();
-
-        assertEquals(
-                "We see unexpected title",
-                "Java (programming language)",
-                articleTitle
-        );
-
-    }
-
-    @Test
     public void testHasTextInSearchField() {
 
         mainPageObject.waitForElementAndClick(
@@ -108,53 +85,56 @@ public class testSearch extends CoreTestCase {
                 By.id("org.wikipedia:id/view_page_title_text"),
                 "Java (programming language)",
                 "We see unexpected title"
-                );
+        );
     }
 
+
+
     @Test
-    public void cancelSearch(){
-        mainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find element",
-                1
-        );
+    public void cancelSearchTests(){
 
-        mainPageObject.assertElementHasText(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Search…",
-                "Search Field not equals 'Search Wikipedia'"
-        );
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
 
-        mainPageObject.waitForElementAndSendKeys(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Java",
-                "Text field not found"
-        );
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Java");
 
-        List<WebElement> listResultElements = mainPageObject.waitForElements(
-                By.className("android.view.ViewGroup"),
-                "Results is empty or elements not found"
-        );
-
-        assertTrue("No search results found",listResultElements.size()>1);
-
-        mainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_close_btn"),
-                "Element X not found",
-                3
-        );
-
-        mainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_close_btn"),
-                "Element X not found",
-                3
-        );
-
-        mainPageObject.waitForElementNotPresent(
-                By.id("org.wikipedia:id/search_close_btn"),
-                "Element X still on page",
-                3
-        );
+//        mainPageObject.waitForElementAndClick(
+//                By.id("org.wikipedia:id/search_container"),
+//                "Cannot find element",
+//                1
+//        );
+//
+//        mainPageObject.assertElementHasText(
+//                By.id("org.wikipedia:id/search_src_text"),
+//                "Search Wikipedia",
+//                "Search Field not equals 'Search Wikipedia'"
+//        );
+//
+//        mainPageObject.waitForElementAndSendKeys(
+//                By.id("org.wikipedia:id/search_src_text"),
+//                "Java",
+//                "Text field not found"
+//        );
+//
+//        List<WebElement> listResultElements = mainPageObject.waitForElements(
+//                By.className("android.view.ViewGroup"),
+//                "Results is empty or elements not found"
+//        );
+//
+//        assertTrue("No search results found",listResultElements.size()>1);
+//
+//        mainPageObject.waitForElementAndClick(
+//                By.id("org.wikipedia:id/search_close_btn"),
+//                "Element X not found",
+//                3
+//        );
+//
+//        listResultElements = mainPageObject.waitForElements(
+//                By.className("android.view.ViewGroup"),
+//                "Results is empty or elements not found"
+//        );
+//
+//        assertTrue("Canceling the search didn't work", listResultElements.size() == 1);
     }
 
     @Test
@@ -191,41 +171,6 @@ public class testSearch extends CoreTestCase {
     }
 
     @Test
-    public void testSwipeArticle(){
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
-        searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Appium");
-        searchPageObject.clickByArticleWithSubstring("Appium");
-
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
-        articlePageObject.waiteForTitleElement();
-        articlePageObject.swipeToFooter();
-    }
-
-    @Test
-    public void testSaveArticle() {
-        String name_of_folder = "test";
-
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
-        searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
-
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
-        articlePageObject.waiteForTitleElement();
-        String article_title = articlePageObject.getArticleTitle();
-        articlePageObject.addArticleToMyList(name_of_folder);
-        articlePageObject.closeArticle();
-
-        NavigationUI navigationUI = new NavigationUI(driver);
-        navigationUI.clickMyList();
-
-        MyListPageObject myListPageObject = new MyListPageObject(driver);
-        myListPageObject.openFolderByName(name_of_folder);
-        myListPageObject.swipeByArticleToDelete(article_title);
-    }
-
-    @Test
     public void testAmountOfNotEmptySearch() {
         String searchLine = "Linkin park";
         SearchPageObject searchPageObject = new SearchPageObject(driver);
@@ -250,39 +195,7 @@ public class testSearch extends CoreTestCase {
         searchPageObject.waitForEmptyResultsLabel();
     }
 
-    @Test
-    public void testChangeScreenOrientationOnSearchResults(){
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
-        searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
 
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
-        articlePageObject.waiteForTitleElement();
-        String article_title = articlePageObject.getArticleTitle();
-        String title_before_rotation = articlePageObject.getArticleTitle();
-        this.rotateScreenLandscape();
-        String title_after_rotation = articlePageObject.getArticleTitle();
-
-        assertEquals("Article have been changed after rotation", title_before_rotation, title_after_rotation);
-
-        rotateScreenPortrait();
-        String title_after_second_rotate = articlePageObject.getArticleTitle();
-
-        assertEquals("Article have been changed after rotation", title_before_rotation, title_after_second_rotate);
-    }
-
-    @Test
-    public void testCheckSearchInBackground() {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
-        searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-        searchPageObject.waitForSearchResult("Object-oriented programming language");
-
-        runAppInBackground(5);
-
-        searchPageObject.waitForSearchResult("Object-oriented programming language");
-    }
 
     @Test
     public void testSaveTwoArticles(){
