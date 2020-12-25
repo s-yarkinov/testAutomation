@@ -55,40 +55,6 @@ public class testSearch extends CoreTestCase {
     }
 
     @Test
-    public void testHasTextInSearchField() {
-
-        mainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find element",
-                1
-        );
-
-        mainPageObject.assertElementHasText(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Search…",
-                "Search Field not equals 'Search Wikipedia'"
-        );
-
-        mainPageObject.waitForElementAndSendKeys(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Java",
-                "Text field not found"
-        );
-
-        mainPageObject.waitForElementAndClick(
-                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]"),
-                "Result not found",
-                3
-        );
-
-        mainPageObject.assertElementHasText(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "Java (programming language)",
-                "We see unexpected title"
-        );
-    }
-
-    @Test
     public void testCancel() {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
 

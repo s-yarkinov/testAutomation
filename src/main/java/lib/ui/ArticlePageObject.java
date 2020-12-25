@@ -107,4 +107,8 @@ public class ArticlePageObject extends MainPageObject{
                 5
         );
     }
+
+    public void assertTitleIsPresent() {
+        this.assertElementPresent(By.id(ARTICLE_TITLE), "Title is not present");
+    }
 }
