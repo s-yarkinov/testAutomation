@@ -13,9 +13,14 @@ public class ArticlePageObject extends MainPageObject{
         ADD_TO_MY_LIST_OVERLAY = "org.wikipedia:id/onboarding_button",
         MY_LIST_NAME_INPUT = "org.wikipedia:id/text_input",
         MY_LIST_OK_BUTTON = "android:id/button1",
-        CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]";
+        CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]",
+        EXISTING_MY_LIST_TPL = "//*[@text = '{MY_LIST_NAME}']";
 
-
+//    TPL
+    public String getXpathExistingMyList(String myListName) {
+        return EXISTING_MY_LIST_TPL.replace("{MY_LIST_NAME}", myListName);
+    }
+//    TPL
     public ArticlePageObject(AppiumDriver driver) {
         super(driver);
     }
@@ -37,7 +42,7 @@ public class ArticlePageObject extends MainPageObject{
         );
     }
 
-    public void addArticleToMyList(String name_of_folder) {
+    public void createMyListAndAddArticleToMyList(String name_of_folder) {
         this.waitForElementAndClick(
                 By.xpath(OPTIONS_BUTTON),
                 "Element 'More option' not found",
@@ -70,6 +75,27 @@ public class ArticlePageObject extends MainPageObject{
         this.waitForElementAndClick(
                 By.id(MY_LIST_OK_BUTTON),
                 "Not found 'OK' button",
+                5
+        );
+    }
+
+    public void addArticleToExistingMyList(String existingListName) {
+        this.waitForElementAndClick(
+                By.xpath(OPTIONS_BUTTON),
+                "Element 'More option' not found",
+                5
+        );
+
+        this.waitForElementAndClick(
+                By.xpath(ADD_TO_MY_LIST_BUTTON),
+                "'Add to read list' element not found",
+                5
+        );
+
+        String existingMyListXpath = this.getXpathExistingMyList(existingListName);
+        this.waitForElementAndClick(
+                By.xpath(existingMyListXpath),
+                "Reading list not found",
                 5
         );
     }

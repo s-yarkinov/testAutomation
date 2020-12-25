@@ -60,4 +60,10 @@ public class MyListPageObject extends MainPageObject{
         );
     }
 
+    public void openArticleByTitle(String article_title) {
+        String article_xpath = getSavedArticleXpathByArticle(article_title);
+        this.waitForElementAndClick(
+                By.xpath(article_xpath),
+                "Article with title:'" + article_title + "' not found", 10);
+    }
 }
