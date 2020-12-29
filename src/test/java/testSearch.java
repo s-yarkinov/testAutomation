@@ -168,6 +168,7 @@ public class testSearch extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(article_title);
+        driver.hideKeyboard();
         searchPageObject.waitForElementByTitleAndDescription(article_title, subtitle);
     }
 }

@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 
 public class SearchPageObject extends MainPageObject{
@@ -76,6 +77,7 @@ public class SearchPageObject extends MainPageObject{
         String xpath = getSearchResultByTitleAndDescription(title, description);
         waitForElementPresent(By.xpath(xpath),
                 "Cannot find element: " + xpath);
+        Assert.assertEquals("Cannot find more 3 elements", this.getAmountElements(By.xpath(xpath)), 3);
     }
 
 }
