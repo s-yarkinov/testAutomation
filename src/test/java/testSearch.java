@@ -160,4 +160,14 @@ public class testSearch extends CoreTestCase {
         mainPageObject.assertElementPresent(titleOfArticle, "Article title not found");
     }
 
+    @Test
+    public void testtest() {
+
+        String article_title = "JavaScript", subtitle = "Programming language";
+
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine(article_title);
+        searchPageObject.waitForElementByTitleAndDescription(article_title, subtitle);
+    }
 }
