@@ -9,10 +9,10 @@ public class WelcomePageObject extends MainPageObject{
     }
 
     private static final String
-        NEXT_BUTTON = "//XCUIElementTypeButton[@name='Next']",
-        SKIP_BUTTON = "//XCUIElementTypeStaticText[@name=\"Skip\"]",
-        FIND_TEXT_BY_NAME_TPL = "//XCUIElementTypeStaticText[@name='{TEXT}']",
-        GET_STARTED_BUTTON = "//XCUIElementTypeButton[@name=\"Get started\"]";
+        NEXT_BUTTON = "xpath://XCUIElementTypeButton[@name='Next']",
+        SKIP_BUTTON = "xpath://XCUIElementTypeStaticText[@name=\"Skip\"]",
+        FIND_TEXT_BY_NAME_TPL = "xpath://XCUIElementTypeStaticText[@name='{TEXT}']",
+        GET_STARTED_BUTTON = "xpath://XCUIElementTypeButton[@name=\"Get started\"]";
 
 
 
@@ -23,27 +23,45 @@ public class WelcomePageObject extends MainPageObject{
 //    TPL
     public void waitForLearnMoreLink() {
         String elementXpath = getFindTextByNameTplXpath("Learn more about Wikipedia");
-        this.waitForElementPresent(By.xpath(elementXpath), "'Learn more about Wikipedia' link not found");
+        this.waitForElementPresent(
+                elementXpath,
+                "'Learn more about Wikipedia' link not found"
+        );
     }
 
     public void clickNextButton() {
-        this.waitForElementAndClick(By.xpath(NEXT_BUTTON), "'Next Button' not found", 5);
+        this.waitForElementAndClick(NEXT_BUTTON,
+                "'Next Button' not found",
+                5
+        );
     }
 
     public void waiteNewWaysToExploreText() {
         String elementXpath = getFindTextByNameTplXpath("New ways to explore");
-        this.waitForElementPresent(By.xpath(elementXpath), "'New ways to explore' not found");
+        this.waitForElementPresent(
+                elementXpath,
+                "'New ways to explore' not found"
+        );
     }
     public void waiteSearchInOverText() {
         String elementXpath = getFindTextByNameTplXpath("Search in over 300 languages");
-        this.waitForElementPresent(By.xpath(elementXpath), "'Search in over 300 languages' not found");
+        this.waitForElementPresent(
+                elementXpath,
+                "'Search in over 300 languages' not found"
+        );
     }
     public void waitLearnMoreLink() {
         String elementXpath = getFindTextByNameTplXpath("Learn more about data collected");
-        this.waitForElementPresent(By.xpath(elementXpath), "'Learn more about data collected' not found");
+        this.waitForElementPresent(
+                elementXpath,
+                "'Learn more about data collected' not found");
     }
 
     public void ClickGetStartedButton() {
-        this.waitForElementAndClick(By.xpath(GET_STARTED_BUTTON), "'Get started' button not found", 5);
+        this.waitForElementAndClick(
+                GET_STARTED_BUTTON,
+                "'Get started' button not found",
+                5
+        );
     }
 }

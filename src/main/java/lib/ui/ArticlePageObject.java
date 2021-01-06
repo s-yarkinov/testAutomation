@@ -6,15 +6,15 @@ import org.openqa.selenium.WebElement;
 
 public class ArticlePageObject extends MainPageObject{
     private static final String
-        ARTICLE_TITLE = "org.wikipedia:id/view_page_title_text",
-        FOOTER_ELEMENT = "org.wikipedia:id/page_external_link",
-        OPTIONS_BUTTON = "//android.widget.ImageView[@content-desc='More options']",
-        ADD_TO_MY_LIST_BUTTON = "//*[@text = 'Add to reading list']",
-        ADD_TO_MY_LIST_OVERLAY = "org.wikipedia:id/onboarding_button",
-        MY_LIST_NAME_INPUT = "org.wikipedia:id/text_input",
-        MY_LIST_OK_BUTTON = "android:id/button1",
-        CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]",
-        EXISTING_MY_LIST_TPL = "//*[@text = '{MY_LIST_NAME}']";
+        ARTICLE_TITLE = "id:org.wikipedia:id/view_page_title_text",
+        FOOTER_ELEMENT = "id:org.wikipedia:id/page_external_link",
+        OPTIONS_BUTTON = "xpath://android.widget.ImageView[@content-desc='More options']",
+        ADD_TO_MY_LIST_BUTTON = "xpath://*[@text = 'Add to reading list']",
+        ADD_TO_MY_LIST_OVERLAY = "id:org.wikipedia:id/onboarding_button",
+        MY_LIST_NAME_INPUT = "id:org.wikipedia:id/text_input",
+        MY_LIST_OK_BUTTON = "id:android:id/button1",
+        CLOSE_ARTICLE_BUTTON = "xpath://android.widget.ImageButton[@content-desc=\"Navigate up\"]",
+        EXISTING_MY_LIST_TPL = "xpath://*[@text = '{MY_LIST_NAME}']";
 
 //    TPL
     public String getXpathExistingMyList(String myListName) {
@@ -26,7 +26,7 @@ public class ArticlePageObject extends MainPageObject{
     }
 
     public WebElement waitForTitleElement() {
-        return this.waitForElementPresent(By.id(ARTICLE_TITLE),"Cannot find article title");
+        return this.waitForElementPresent(ARTICLE_TITLE,"Cannot find article title");
     }
 
     public String getArticleTitle() {
@@ -36,7 +36,7 @@ public class ArticlePageObject extends MainPageObject{
 
     public void swipeToFooter() {
         this.swipeUpToFindElement(
-                By.id(FOOTER_ELEMENT),
+                FOOTER_ELEMENT,
                 "Cannot find the end of article",
                 20
         );
@@ -44,36 +44,36 @@ public class ArticlePageObject extends MainPageObject{
 
     public void createMyListAndAddArticleToMyList(String name_of_folder) {
         this.waitForElementAndClick(
-                By.xpath(OPTIONS_BUTTON),
+                OPTIONS_BUTTON,
                 "Element 'More option' not found",
                 5
         );
 
         this.waitForElementAndClick(
-                By.xpath(ADD_TO_MY_LIST_BUTTON),
+                ADD_TO_MY_LIST_BUTTON,
                 "'Add to read list' element not found",
                 5
         );
 
         this.waitForElementAndClick(
-                By.id(ADD_TO_MY_LIST_OVERLAY),
+                ADD_TO_MY_LIST_OVERLAY,
                 "Button 'GOT IT' not found",
                 5
         );
 
         this.waitForElementAndClear(
-                By.id(MY_LIST_NAME_INPUT),
+                MY_LIST_NAME_INPUT,
                 "'Text input' element not found"
         );
 
         this.waitForElementAndSendKeys(
-                By.id(MY_LIST_NAME_INPUT),
+                MY_LIST_NAME_INPUT,
                 name_of_folder,
                 "'Text input' element not found"
         );
 
         this.waitForElementAndClick(
-                By.id(MY_LIST_OK_BUTTON),
+                MY_LIST_OK_BUTTON,
                 "Not found 'OK' button",
                 5
         );
@@ -81,20 +81,20 @@ public class ArticlePageObject extends MainPageObject{
 
     public void addArticleToExistingMyList(String existingListName) {
         this.waitForElementAndClick(
-                By.xpath(OPTIONS_BUTTON),
+                OPTIONS_BUTTON,
                 "Element 'More option' not found",
                 5
         );
 
         this.waitForElementAndClick(
-                By.xpath(ADD_TO_MY_LIST_BUTTON),
+                ADD_TO_MY_LIST_BUTTON,
                 "'Add to read list' element not found",
                 5
         );
 
         String existingMyListXpath = this.getXpathExistingMyList(existingListName);
         this.waitForElementAndClick(
-                By.xpath(existingMyListXpath),
+                existingMyListXpath,
                 "Reading list not found",
                 5
         );
@@ -102,7 +102,7 @@ public class ArticlePageObject extends MainPageObject{
 
     public void closeArticle() {
         this.waitForElementAndClick(
-                By.xpath(CLOSE_ARTICLE_BUTTON),
+                CLOSE_ARTICLE_BUTTON,
                 "Element 'X' not found",
                 5
         );

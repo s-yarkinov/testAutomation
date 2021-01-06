@@ -34,25 +34,25 @@ public class testSearch extends CoreTestCase {
         searchPageObject.waitForCancelButtonToDisappear();
     }
 
-    @Test
-    public void testClearTextField() {
-        mainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find element",
-                1
-        );
-
-        mainPageObject.waitForElementAndSendKeys(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Java",
-                "Text field not found"
-        );
-
-        mainPageObject.waitForElementAndClear(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Element 'search field' not found"
-        );
-    }
+//    @Test
+//    public void testClearTextField() {
+//        mainPageObject.waitForElementAndClick(
+//                By.id("org.wikipedia:id/search_container"),
+//                "Cannot find element",
+//                1
+//        );
+//
+//        mainPageObject.waitForElementAndSendKeys(
+//                By.id("org.wikipedia:id/search_src_text"),
+//                "Java",
+//                "Text field not found"
+//        );
+//
+//        mainPageObject.waitForElementAndClear(
+//                By.id("org.wikipedia:id/search_src_text"),
+//                "Element 'search field' not found"
+//        );
+//    }
 
     @Test
     public void testCancel() {
@@ -68,38 +68,38 @@ public class testSearch extends CoreTestCase {
         assertTrue("Search results remained after canceling", amount_results==0);
     }
 
-    @Test
-    public void testCheckingSearchResults()
-    {
-        String searchText = "Java";
-        mainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find element",
-                1
-        );
-
-        mainPageObject.assertElementHasText(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Search…",
-                "Search Field not equals 'Search Wikipedia'"
-        );
-
-        mainPageObject.waitForElementAndSendKeys(
-                By.id("org.wikipedia:id/search_src_text"),
-                searchText,
-                "Text field not found"
-        );
-
-        List<WebElement> searchResult = mainPageObject.waitForElements(
-                By.id("org.wikipedia:id/page_list_item_title"),
-                "Results not found"
-        );
-
-        for (WebElement webElement : searchResult) {
-            assertTrue("The results does not contain '" + searchText + "'",
-                    webElement.getAttribute("text").contains(searchText));
-        }
-    }
+//    @Test
+//    public void testCheckingSearchResults()
+//    {
+//        String searchText = "Java";
+//        mainPageObject.waitForElementAndClick(
+//                By.id("org.wikipedia:id/search_container"),
+//                "Cannot find element",
+//                1
+//        );
+//
+//        mainPageObject.assertElementHasText(
+//                By.id("org.wikipedia:id/search_src_text"),
+//                "Search…",
+//                "Search Field not equals 'Search Wikipedia'"
+//        );
+//
+//        mainPageObject.waitForElementAndSendKeys(
+//                By.id("org.wikipedia:id/search_src_text"),
+//                searchText,
+//                "Text field not found"
+//        );
+//
+//        List<WebElement> searchResult = mainPageObject.waitForElements(
+//                By.id("org.wikipedia:id/page_list_item_title"),
+//                "Results not found"
+//        );
+//
+//        for (WebElement webElement : searchResult) {
+//            assertTrue("The results does not contain '" + searchText + "'",
+//                    webElement.getAttribute("text").contains(searchText));
+//        }
+//    }
 
     @Test
     public void testAmountOfNotEmptySearch() {
@@ -127,38 +127,38 @@ public class testSearch extends CoreTestCase {
     }
 
 
-    @Test
-    public void testTitleIsPresent(){
-        By titleOfArticle = By.id("org.wikipedia:id/view_page_title_text");
-        String firstSubtitle = "//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]";
-
-
-        mainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find element",
-                1
-        );
-
-        mainPageObject.assertElementHasText(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Search…",
-                "Search Field not equals 'Search Wikipedia'"
-        );
-
-        mainPageObject.waitForElementAndSendKeys(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Java",
-                "Text field not found"
-        );
-
-        mainPageObject.waitForElementAndClick(
-                By.xpath(firstSubtitle),
-                "Element not found: " + firstSubtitle,
-                3
-        );
-
-        mainPageObject.assertElementPresent(titleOfArticle, "Article title not found");
-    }
+//    @Test
+//    public void testTitleIsPresent(){
+//        By titleOfArticle = By.id("org.wikipedia:id/view_page_title_text");
+//        String firstSubtitle = "//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, 'Object-oriented programming language')]";
+//
+//
+//        mainPageObject.waitForElementAndClick(
+//                By.id("org.wikipedia:id/search_container"),
+//                "Cannot find element",
+//                1
+//        );
+//
+//        mainPageObject.assertElementHasText(
+//                By.id("org.wikipedia:id/search_src_text"),
+//                "Search…",
+//                "Search Field not equals 'Search Wikipedia'"
+//        );
+//
+//        mainPageObject.waitForElementAndSendKeys(
+//                By.id("org.wikipedia:id/search_src_text"),
+//                "Java",
+//                "Text field not found"
+//        );
+//
+//        mainPageObject.waitForElementAndClick(
+//                By.xpath(firstSubtitle),
+//                "Element not found: " + firstSubtitle,
+//                3
+//        );
+//
+//        mainPageObject.assertElementPresent(titleOfArticle, "Article title not found");
+//    }
 
     @Test
     public void testtest() {

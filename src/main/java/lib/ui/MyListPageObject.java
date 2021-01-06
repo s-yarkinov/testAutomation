@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 public class MyListPageObject extends MainPageObject{
 
     private static final String
-        FOLDER_NAME_TPL = "//*[@resource-id = 'org.wikipedia:id/item_title'][@text = '{FOLDER_NAME}']",
-        ARTICLE_BY_TITLE_TPL = "//*[@text = '{ARTICLE_TITLE}']";
+        FOLDER_NAME_TPL = "xpath://*[@resource-id = 'org.wikipedia:id/item_title'][@text = '{FOLDER_NAME}']",
+        ARTICLE_BY_TITLE_TPL = "xpath://*[@text = '{ARTICLE_TITLE}']";
 
     private static String getFolderXpathByName(String name_of_folder) {
         return FOLDER_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
@@ -24,7 +24,7 @@ public class MyListPageObject extends MainPageObject{
     public void openFolderByName(String name_of_folder) {
         String folder_name_xpath = getFolderXpathByName(name_of_folder);
         this.waitForElementAndClick(
-                By.xpath(folder_name_xpath),
+                folder_name_xpath,
                 "Cannot find folder by name",
                 5
         );
@@ -35,7 +35,7 @@ public class MyListPageObject extends MainPageObject{
         this.waitForArticleToAppearByTitle(article_title);
         String article_xpath = getSavedArticleXpathByArticle(article_title);
         this.swipeToLeftElement(
-                By.xpath(article_xpath),
+                article_xpath,
                 "Saved article not found",
                 5
         );
@@ -46,7 +46,7 @@ public class MyListPageObject extends MainPageObject{
     public void waitForArticleToDisappearByTitle(String article_title) {
         String article_xpath = getSavedArticleXpathByArticle(article_title);
         this.waitForElementNotPresent(
-                By.xpath(article_xpath),
+                article_xpath,
                 "Saved article still present by title '" + article_title + "'",
                 5
         );
@@ -55,7 +55,7 @@ public class MyListPageObject extends MainPageObject{
     public void waitForArticleToAppearByTitle(String article_title) {
         String article_xpath = getSavedArticleXpathByArticle(article_title);
         this.waitForElementPresent(
-                By.xpath(article_xpath),
+                article_xpath,
                 "Saved article not present by title '" + article_title + "'"
         );
     }
@@ -63,7 +63,7 @@ public class MyListPageObject extends MainPageObject{
     public void openArticleByTitle(String article_title) {
         String article_xpath = getSavedArticleXpathByArticle(article_title);
         this.waitForElementAndClick(
-                By.xpath(article_xpath),
+                article_xpath,
                 "Article with title:'" + article_title + "' not found", 10);
     }
 }

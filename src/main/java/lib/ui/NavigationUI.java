@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 public class NavigationUI extends MainPageObject{
 
     private static final String
-        MY_LIST_LINK = "//android.widget.FrameLayout[@content-desc=\"My lists\"]";
+        MY_LIST_LINK = "xpath://android.widget.FrameLayout[@content-desc=\"My lists\"]";
 
     public NavigationUI(AppiumDriver driver) {
         super(driver);
@@ -14,7 +14,7 @@ public class NavigationUI extends MainPageObject{
 
     public void clickMyList(){
         this.waitForElementAndClick(
-                By.xpath(MY_LIST_LINK),
+                MY_LIST_LINK,
                 "'My list' element not found",
                 5
         );
