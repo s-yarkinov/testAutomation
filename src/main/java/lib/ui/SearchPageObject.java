@@ -4,16 +4,16 @@ import io.appium.java_client.AppiumDriver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 
-public class SearchPageObject extends MainPageObject{
+public abstract class SearchPageObject extends MainPageObject{
     private AppiumDriver driver;
-    private static final String
-        SEARCH_INIT_ELEMENT = "xpath://*[contains(@text, 'Search Wikipedia')]",
-        SEARCH_INPUT = "xpath://android.widget.LinearLayout/android.widget.EditText",
-        SEARCH_CANCEL_BUTTON = "id:org.wikipedia:id/search_close_btn",
-        SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://*[@resource-id = 'org.wikipedia:id/search_results_list']//*[contains(@text, '{SUBSTRING}')]",
-        SEARCH_RESULTS = "xpath://*[@resource-id = 'org.wikipedia:id/fragment_search_results']//*[@resource-id = 'org.wikipedia:id/page_list_item_container']",
-        EMPTY_RESULT_LABEL = "xpath://*[@text = 'No results found']",
-        TITLE_AND_SUBTITLE_TPL = "xpath://*[@text = '{TITLE}']/following-sibling::*[@text = '{SUBTITLE}']";
+    protected static String
+        SEARCH_INIT_ELEMENT,
+        SEARCH_INPUT,
+        SEARCH_CANCEL_BUTTON,
+        SEARCH_RESULT_BY_SUBSTRING_TPL,
+        SEARCH_RESULTS,
+        EMPTY_RESULT_LABEL,
+        TITLE_AND_SUBTITLE_TPL;
 
 
 //    TPL
@@ -36,10 +36,12 @@ public class SearchPageObject extends MainPageObject{
                 "Cannot find and click search init element",
                 5
         );
-        this.waitForElementPresent(
-                SEARCH_INIT_ELEMENT,
-                "Cannot find search inpur after clicking init search element"
-        );
+        if(Platform.getInstance().isAndroid()) {
+            this.waitForElementPresent(
+                    SEARCH_INIT_ELEMENT,
+                    "Cannot find search inpur after clicking init search element"
+            );
+        }
     }
 
     public void typeSearchLine(String search_line) {

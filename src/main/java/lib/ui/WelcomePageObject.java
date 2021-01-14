@@ -10,9 +10,9 @@ public class WelcomePageObject extends MainPageObject{
 
     private static final String
         NEXT_BUTTON = "xpath://XCUIElementTypeButton[@name='Next']",
-        SKIP_BUTTON = "xpath://XCUIElementTypeStaticText[@name=\"Skip\"]",
         FIND_TEXT_BY_NAME_TPL = "xpath://XCUIElementTypeStaticText[@name='{TEXT}']",
-        GET_STARTED_BUTTON = "xpath://XCUIElementTypeButton[@name=\"Get started\"]";
+        GET_STARTED_BUTTON = "xpath://XCUIElementTypeButton[@name='Get started']",
+        SKIP_BUTTON = "xpath://XCUIElementTypeButton[@name='Skip']";
 
 
 
@@ -63,5 +63,9 @@ public class WelcomePageObject extends MainPageObject{
                 "'Get started' button not found",
                 5
         );
+    }
+
+    public void clickSkip() {
+        this.waitForElementAndClick(SKIP_BUTTON, "Cannot find and click Skip button", 10);
     }
 }
