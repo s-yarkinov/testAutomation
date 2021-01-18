@@ -39,7 +39,7 @@ public abstract class SearchPageObject extends MainPageObject{
         if(Platform.getInstance().isAndroid()) {
             this.waitForElementPresent(
                     SEARCH_INIT_ELEMENT,
-                    "Cannot find search inpur after clicking init search element"
+                    "Cannot find search input after clicking init search element"
             );
         }
     }

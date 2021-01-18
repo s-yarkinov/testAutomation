@@ -168,12 +168,34 @@ public class MainPageObject {
 
         TouchAction action = new TouchAction(driver);
 
-        action.
-                press(point(x_right, middle_y)).
-                waitAction(waitOptions(ofMillis(300))).
-                moveTo(point(x_left, middle_y)).
-                release().
-                perform();
+        action.press(point(x_right, middle_y));
+        action.waitAction(waitOptions(ofMillis(300)));
+
+        if(Platform.getInstance().isAndroid()){
+            action.moveTo(point(x_left, middle_y));
+        }
+        else {
+            int offset_x = (-1 * element.getSize().getWidth());
+            action.moveTo(point(offset_x, 0));
+        }
+
+        action.release();
+        action.perform();
+    }
+
+    public void clickElementToTheRightUpperCorner(String locator, String err_msg){
+        WebElement element = this.waitForElementPresent(locator + "/..", err_msg);
+        int right_x = element.getLocation().getX();
+        int upper_y = element.getLocation().getY();
+        int lower_y = upper_y + element.getSize().height;
+        int middle_y = (lower_y + upper_y) / 2;
+        int width = element.getSize().getWidth();
+
+        int point_to_click_x = (right_x + width) - 20;
+        int point_to_click_y = middle_y;
+
+        TouchAction action = new TouchAction(driver);
+        action.tap(point(point_to_click_x, point_to_click_y)).perform();
     }
 
     public int getAmountElements(String locator) {

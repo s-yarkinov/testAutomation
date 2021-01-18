@@ -3,11 +3,13 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
-public class MyListPageObject extends MainPageObject{
+abstract public class MyListPageObject extends MainPageObject{
 
-    private static final String
-        FOLDER_NAME_TPL = "xpath://*[@resource-id = 'org.wikipedia:id/item_title'][@text = '{FOLDER_NAME}']",
-        ARTICLE_BY_TITLE_TPL = "xpath://*[@text = '{ARTICLE_TITLE}']";
+    protected static String
+        FOLDER_NAME_TPL,
+        ARTICLE_BY_TITLE_TPL,
+        CLOSE_SYNC_BUTTON,
+        CLOSE_SYNC_TEXT;
 
     private static String getFolderXpathByName(String name_of_folder) {
         return FOLDER_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
@@ -40,6 +42,10 @@ public class MyListPageObject extends MainPageObject{
                 5
         );
 
+        if(Platform.getInstance().isIOS()){
+            this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find saved article");
+        }
+
         waitForArticleToDisappearByTitle(article_title);
     }
 
@@ -65,5 +71,10 @@ public class MyListPageObject extends MainPageObject{
         this.waitForElementAndClick(
                 article_xpath,
                 "Article with title:'" + article_title + "' not found", 10);
+    }
+
+    public void closeSyncPopUp(){
+        this.waitForElementPresent(CLOSE_SYNC_TEXT, "Text 'Sync your saved articles?' not found");
+        this.waitForElementAndClick(CLOSE_SYNC_BUTTON, "Button 'Close sync pop-up' not found", 10);
     }
 }

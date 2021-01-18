@@ -1,6 +1,8 @@
 import lib.CoreTestCase;
 import lib.ui.*;
 import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.MyListPageObjectFactory;
+import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -9,6 +11,7 @@ public class MyListTests extends CoreTestCase {
     @Test
     public void testSaveArticle() {
         String name_of_folder = "test";
+        String subtitle = "Object-oriented programming language";
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -18,14 +21,25 @@ public class MyListTests extends CoreTestCase {
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.waitForTitleElement();
         String article_title = articlePageObject.getArticleTitle();
-        articlePageObject.createMyListAndAddArticleToMyList(name_of_folder);
+        if(Platform.getInstance().isAndroid()) {
+            articlePageObject.createMyListAndAddArticleToMyList(name_of_folder);
+        }
+        else
+            articlePageObject.addArticlesToSaved();
         articlePageObject.closeArticle();
 
-        NavigationUI navigationUI = new NavigationUI(driver);
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.clickMyList();
 
-        MyListPageObject myListPageObject = new MyListPageObject(driver);
-        myListPageObject.openFolderByName(name_of_folder);
+        MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
+
+        if(Platform.getInstance().isIOS()){
+            myListPageObject.closeSyncPopUp();
+        }
+        if(Platform.getInstance().isAndroid()) {
+            myListPageObject.openFolderByName(name_of_folder);
+        }
+
         myListPageObject.swipeByArticleToDelete(article_title);
     }
 
@@ -52,10 +66,13 @@ public class MyListTests extends CoreTestCase {
         articlePageObject.addArticleToExistingMyList(name_of_folder);
         articlePageObject.closeArticle();
 
-        NavigationUI navigationUI = new NavigationUI(driver);
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.clickMyList();
 
-        MyListPageObject myListPageObject = new MyListPageObject(driver);
+        MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
+        if (Platform.getInstance().isIOS()){
+            myListPageObject.closeSyncPopUp();
+        }
         myListPageObject.openFolderByName(name_of_folder);
         myListPageObject.swipeByArticleToDelete(first_article_title);
         myListPageObject.waitForArticleToDisappearByTitle(first_article_title);

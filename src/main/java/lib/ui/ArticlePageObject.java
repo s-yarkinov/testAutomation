@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -94,6 +95,10 @@ abstract public class ArticlePageObject extends MainPageObject{
         );
     }
 
+    public void addArticlesToSaved(){
+        this.waitForElementAndClick(ADD_TO_MY_LIST_BUTTON, "Add to saved list button is not found", 1);
+    }
+
     public void addArticleToExistingMyList(String existingListName) {
         this.waitForElementAndClick(
                 OPTIONS_BUTTON,
@@ -121,9 +126,15 @@ abstract public class ArticlePageObject extends MainPageObject{
                 "Element 'X' not found",
                 5
         );
+        if(Platform.getInstance().isIOS()) {
+            SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
+            searchPageObject.clickCancelSearch();
+        }
     }
 
     public void assertTitleIsPresent() {
         this.assertElementPresent(By.id(ARTICLE_TITLE), "Title is not present");
     }
+
+
 }
