@@ -4,26 +4,29 @@ import io.appium.java_client.AppiumDriver;
 import junit.framework.TestCase;
 import lib.ui.Platform;
 import lib.ui.WelcomePageObject;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.openqa.selenium.ScreenOrientation;
 import static java.time.Duration.ofSeconds;
 
-public class CoreTestCase extends TestCase {
+public class CoreTestCase {
 
     protected AppiumDriver driver;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         driver = Platform.getInstance().getDriver();
         this.rotateScreenPortrait();
         this.skipWelcomePageForIos();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         driver.quit();
-        super.tearDown();
     }
+
 
     protected void rotateScreenLandscape(){
         driver.rotate(ScreenOrientation.LANDSCAPE);

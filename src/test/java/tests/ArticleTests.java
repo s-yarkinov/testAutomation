@@ -1,14 +1,23 @@
+package tests;
+
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
-import lib.ui.Platform;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.SearchPageObjectFactory;
-import org.checkerframework.checker.units.qual.A;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class ArticleTests extends CoreTestCase {
+
+
+//    @BeforeClass
+//    public void logInApp(){
+//        System.out.println("test1");
+//    }
+
     @Test
     public void testCompareArticleTitle() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);

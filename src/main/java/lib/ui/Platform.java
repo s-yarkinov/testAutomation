@@ -47,12 +47,16 @@ public class Platform {
     private DesiredCapabilities getAndroidDesiredCapabilities() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("deviceName", "emulator-5554");
-        capabilities.setCapability("platformVersion", "7.1.1");
-        capabilities.setCapability("automationName", "Appium");
+//        capabilities.setCapability("deviceName", "emulator-5554");
+        capabilities.setCapability("deviceName", "Pie_9.0");
+//        capabilities.setCapability("deviceName", "Nougat_7.1.1");
+        capabilities.setCapability("platformVersion", "9.0");
+        capabilities.setCapability("automationName", "UiAutomator2");
         capabilities.setCapability("appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", "main.MainActivity");
         capabilities.setCapability("fullReset", "false");
+        capabilities.setCapability("avdReadyTimeout", 500000);
+        capabilities.setCapability("adbExecTimeout", 500000);
         capabilities.setCapability("app", "/Users/macmini2/IdeaProjects/testAutomation/apps/org.wikipedia.apk");
         return capabilities;
     }
@@ -62,6 +66,7 @@ public class Platform {
         capabilities.setCapability("platformName", "iOS");
         capabilities.setCapability("deviceName", "iPhone10_13.3");
         capabilities.setCapability("platformVersion", "13.3");
+        capabilities.setCapability("isHeadless", false);
         capabilities.setCapability("app", "/Users/macmini2/IdeaProjects/testAutomation/apps/Wikipedia.app");
         return capabilities;
     }

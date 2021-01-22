@@ -3,6 +3,9 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public abstract class SearchPageObject extends MainPageObject{
     private AppiumDriver driver;
@@ -13,7 +16,8 @@ public abstract class SearchPageObject extends MainPageObject{
         SEARCH_RESULT_BY_SUBSTRING_TPL,
         SEARCH_RESULTS,
         EMPTY_RESULT_LABEL,
-        TITLE_AND_SUBTITLE_TPL;
+        TITLE_AND_SUBTITLE_TPL,
+        CLEAR_SEARCH_FIELD;
 
 
 //    TPL
@@ -83,12 +87,29 @@ public abstract class SearchPageObject extends MainPageObject{
     }
 
     public void clickCancelSearch() {
-        this.waitForElementAndClick(
-                SEARCH_CANCEL_BUTTON,
-                "Cannot find and click search cancel button",
-                5
-        );
+        if(Platform.getInstance().isAndroid()) {
+            this.waitForElementAndClick(
+                    SEARCH_CANCEL_BUTTON,
+                    "Cannot find and click search cancel button",
+                    5
+            );
+        }
+        else if(Platform.getInstance().isIOS()){
+            this.waitForElementAndClick(
+                    CLEAR_SEARCH_FIELD,
+                    "Cannot find clear 'Search field' field",
+                    5
+            );
+        }
     }
+
+//    public void clickClearSearchField(){
+//        this.waitForElementAndClick(
+//                CLEAR_SEARCH_FIELD,
+//                "Cannot find clear 'Search field' field",
+//                5
+//        );
+//    }
 
     public int getAmountOfFoundArticles() {
         return this.getAmountElements(SEARCH_RESULTS);
@@ -102,6 +123,8 @@ public abstract class SearchPageObject extends MainPageObject{
     }
 
     public void assertThereIsNoResultOfSearch() {
+        List<WebElement> elements = driver.findElements(By.xpath("//XCUIElementTypeLink"));
+        System.out.println("Search result elements" + elements.size());
         this.waitForElementNotPresent(
                 SEARCH_RESULTS,
                 "Search items were found that shouldn't have been",

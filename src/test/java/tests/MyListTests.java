@@ -1,3 +1,5 @@
+package tests;
+
 import lib.CoreTestCase;
 import lib.ui.*;
 import lib.ui.factories.ArticlePageObjectFactory;
@@ -6,6 +8,8 @@ import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 import org.openqa.selenium.By;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class MyListTests extends CoreTestCase {
     @Test
@@ -46,6 +50,7 @@ public class MyListTests extends CoreTestCase {
     @Test
     public void testSaveTwoArticles(){
         String name_of_folder = "test";
+
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();

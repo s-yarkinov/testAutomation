@@ -15,5 +15,6 @@ public class IOSSearchPageObject extends SearchPageObject {
         SEARCH_RESULTS = "xpath://XCUIElementTypeLink";
         EMPTY_RESULT_LABEL = "xpath://XCUIElementTypeStaticText[@name='No results found']";
         TITLE_AND_SUBTITLE_TPL = "xpath://TODO";
+        CLEAR_SEARCH_FIELD = "xpath://XCUIElementTypeButton[@name='Clear text']";
     }
 }

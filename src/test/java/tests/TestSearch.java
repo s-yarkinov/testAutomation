@@ -1,16 +1,20 @@
+package tests;
+
 import lib.CoreTestCase;
 import lib.ui.*;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
-public class testSearch extends CoreTestCase {
+import static junit.framework.TestCase.assertTrue;
+
+public class TestSearch extends CoreTestCase {
 
     private MainPageObject mainPageObject;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        mainPageObject = new MainPageObject(driver);
-    }
+//    protected void setUp() throws Exception {
+//        super.setUp();
+//        mainPageObject = new MainPageObject(driver);
+//    }
 
 
     @Test
@@ -62,8 +66,16 @@ public class testSearch extends CoreTestCase {
         System.out.println(amount_results);
         assertTrue("Search result is empty", amount_results>0);
         searchPageObject.clickCancelSearch();
-        amount_results = searchPageObject.getAmountOfFoundArticles();
-        assertTrue("Search results remained after canceling", amount_results==0);
+        if(Platform.getInstance().isAndroid()) {
+            amount_results = searchPageObject.getAmountOfFoundArticles();
+            System.out.println(amount_results);
+            assertTrue("Search results remained after canceling", amount_results==0);
+        }
+        else {
+            searchPageObject.assertThereIsNoResultOfSearch();
+        }
+
+
     }
 
 //    @Test
@@ -157,16 +169,4 @@ public class testSearch extends CoreTestCase {
 //
 //        mainPageObject.assertElementPresent(titleOfArticle, "Article title not found");
 //    }
-
-    @Test
-    public void test1() {
-
-        String article_title = "JavaScript", subtitle = "Programming language";
-
-        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
-        searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine(article_title);
-        driver.hideKeyboard();
-        searchPageObject.waitForElementByTitleAndDescription(article_title, subtitle);
-    }
 }

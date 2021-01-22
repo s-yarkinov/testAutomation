@@ -1,9 +1,13 @@
+package tests;
+
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class ChangeAppConditionTests extends CoreTestCase {
     @Test
