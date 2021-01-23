@@ -87,20 +87,19 @@ public abstract class SearchPageObject extends MainPageObject{
     }
 
     public void clickCancelSearch() {
-        if(Platform.getInstance().isAndroid()) {
             this.waitForElementAndClick(
                     SEARCH_CANCEL_BUTTON,
                     "Cannot find and click search cancel button",
                     5
             );
-        }
-        else if(Platform.getInstance().isIOS()){
-            this.waitForElementAndClick(
-                    CLEAR_SEARCH_FIELD,
-                    "Cannot find clear 'Search field' field",
-                    5
-            );
-        }
+
+//        else if(Platform.getInstance().isIOS()){
+//            this.waitForElementAndClick(
+//                    CLEAR_SEARCH_FIELD,
+//                    "Cannot find clear 'Search field' field",
+//                    5
+//            );
+//        }
     }
 
 //    public void clickClearSearchField(){

@@ -9,7 +9,12 @@ abstract public class MyListPageObject extends MainPageObject{
         FOLDER_NAME_TPL,
         ARTICLE_BY_TITLE_TPL,
         CLOSE_SYNC_BUTTON,
-        CLOSE_SYNC_TEXT;
+        CLOSE_SYNC_TEXT,
+        LAYOUT_TITLE;
+
+    public void isOpen(){
+        this.waitForElementPresent(LAYOUT_TITLE, "My List screen is not open");
+    }
 
     private static String getFolderXpathByName(String name_of_folder) {
         return FOLDER_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);

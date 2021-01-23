@@ -13,18 +13,19 @@ import static junit.framework.TestCase.assertEquals;
 
 public class MyListTests extends CoreTestCase {
     @Test
-    public void testSaveArticle() {
+    public void testSaveArticle() throws InterruptedException {
         String name_of_folder = "test";
         String subtitle = "Object-oriented programming language";
+        String article_title = "Java";
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        searchPageObject.typeSearchLine(article_title);
+        searchPageObject.clickByArticleWithSubstring(subtitle);
 
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.waitForTitleElement();
-        String article_title = articlePageObject.getArticleTitle();
+//        String article_title = articlePageObject.getArticleTitle();
         if(Platform.getInstance().isAndroid()) {
             articlePageObject.createMyListAndAddArticleToMyList(name_of_folder);
         }
@@ -39,17 +40,22 @@ public class MyListTests extends CoreTestCase {
 
         if(Platform.getInstance().isIOS()){
             myListPageObject.closeSyncPopUp();
+            myListPageObject.isOpen();
         }
         if(Platform.getInstance().isAndroid()) {
             myListPageObject.openFolderByName(name_of_folder);
         }
 
         myListPageObject.swipeByArticleToDelete(article_title);
+        myListPageObject.waitForArticleToDisappearByTitle(article_title);
     }
 
     @Test
     public void testSaveTwoArticles(){
         String name_of_folder = "test";
+
+        String firstArticleSubtitle = "Object-oriented programming language";
+        String secondArticleSubtitle = "Object-oriented programming language";
 
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
@@ -84,5 +90,59 @@ public class MyListTests extends CoreTestCase {
         myListPageObject.waitForArticleToAppearByTitle(second_article_title);
         myListPageObject.openArticleByTitle(second_article_title);
         assertEquals("The title of the article does not match", articlePageObject.getArticleTitle(), second_article_title);
+    }
+
+    @Test
+    public void testSaveTwoArticles2() {
+        String name_of_folder = "test";
+
+        String firstArticleTitle = "Java";
+        String secondArticleTitle = "C++";
+        String firstArticleSubtitle = "Object-oriented programming language";
+        String secondArticleSubtitle = "General-purpose programming language";
+//        if(Platform.getInstance().isIOS()) {
+//            secondArticleSubtitle = "Indonesian island";
+//        }
+//        else secondArticleSubtitle = "Island of Indonesia";
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine(firstArticleTitle);
+        searchPageObject.clickByArticleWithSubstring(firstArticleSubtitle);
+
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
+        articlePageObject.waitForTitleElement();
+        String article_title = articlePageObject.getArticleTitle();
+        if(Platform.getInstance().isAndroid()) {
+            articlePageObject.createMyListAndAddArticleToMyList(name_of_folder);
+        }
+        else
+            articlePageObject.addArticlesToSaved();
+        articlePageObject.closeArticle();
+
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine(secondArticleTitle);
+        searchPageObject.clickByArticleWithSubstring(secondArticleSubtitle);
+
+        if(Platform.getInstance().isIOS()){
+            articlePageObject.addArticlesToSaved();
+        }
+        else {
+            articlePageObject.addArticleToExistingMyList(name_of_folder);
+        }
+        articlePageObject.closeArticle();
+
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
+        navigationUI.clickMyList();
+
+        MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
+
+        if(Platform.getInstance().isIOS()){
+            myListPageObject.closeSyncPopUp();
+        }
+        if(Platform.getInstance().isAndroid()) {
+            myListPageObject.openFolderByName(name_of_folder);
+        }
+
+        myListPageObject.swipeByArticleToDelete(article_title);
     }
 }
