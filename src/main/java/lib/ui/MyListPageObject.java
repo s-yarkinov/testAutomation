@@ -25,7 +25,7 @@ abstract public class MyListPageObject extends MainPageObject{
         return ARTICLE_BY_TITLE_TPL.replace("{ARTICLE_TITLE}", article_title);
     }
     private static String getSavedArticleXpathBySubtitle(String article_title) {
-        return ARTICLE_BY_TITLE_TPL.replace("{ARTICLE_SUBTITLE}", article_title);
+        return ARTICLE_BY_SUBTITLE_TPL.replace("{ARTICLE_SUBTITLE}", article_title);
     }
 
     public MyListPageObject(AppiumDriver driver) {
@@ -67,6 +67,15 @@ abstract public class MyListPageObject extends MainPageObject{
         );
     }
 
+    public void waitForArticleToDisappearBySubtitle(String article_subtitle) {
+        String article_xpath = getSavedArticleXpathByArticle(article_subtitle);
+        this.waitForElementNotPresent(
+                article_xpath,
+                "Saved article still present by title '" + article_subtitle + "'",
+                5
+        );
+    }
+
     public void waitForArticleToAppearByTitle(String article_title) {
         String article_xpath = getSavedArticleXpathByArticle(article_title);
         this.waitForElementPresent(
@@ -76,7 +85,7 @@ abstract public class MyListPageObject extends MainPageObject{
     }
 
     public void waitForArticleToAppearBySubtitle(String article_subtitle) {
-        String article_bySubtitle_xpath = getSavedArticleXpathByArticle(article_subtitle);
+        String article_bySubtitle_xpath = getSavedArticleXpathBySubtitle(article_subtitle);
         this.waitForElementPresent(
                 article_bySubtitle_xpath,
                 "Saved article not present by title '" + article_subtitle + "'"

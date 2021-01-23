@@ -141,5 +141,6 @@ public class MyListTests extends CoreTestCase {
         }
 
         myListPageObject.swipeByArticleToDelete(firstArticleTitle);
+        myListPageObject.waitForArticleToAppearBySubtitle(secondArticleSubtitle);
     }
 }
