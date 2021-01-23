@@ -95,14 +95,11 @@ public class MyListTests extends CoreTestCase {
     public void testSaveTwoArticles2() {
         String name_of_folder = "test";
 
-        String firstArticleTitle = "Java";
+        String firstArticleTitle = "Java (programming language)";
         String secondArticleTitle = "C++";
         String firstArticleSubtitle = "Object-oriented programming language";
         String secondArticleSubtitle = "General-purpose programming language";
-//        if(Platform.getInstance().isIOS()) {
-//            secondArticleSubtitle = "Indonesian island";
-//        }
-//        else secondArticleSubtitle = "Island of Indonesia";
+
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(firstArticleTitle);
@@ -137,11 +134,12 @@ public class MyListTests extends CoreTestCase {
 
         if(Platform.getInstance().isIOS()){
             myListPageObject.closeSyncPopUp();
+            myListPageObject.isOpen();
         }
         if(Platform.getInstance().isAndroid()) {
             myListPageObject.openFolderByName(name_of_folder);
         }
 
-        myListPageObject.swipeByArticleToDelete(article_title);
+        myListPageObject.swipeByArticleToDelete(firstArticleTitle);
     }
 }
