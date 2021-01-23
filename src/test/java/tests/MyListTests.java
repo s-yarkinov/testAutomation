@@ -50,55 +50,16 @@ public class MyListTests extends CoreTestCase {
     }
 
     @Test
-    public void testSaveTwoArticles(){
-        String name_of_folder = "test";
-
-        String firstArticleSubtitle = "Object-oriented programming language";
-        String secondArticleSubtitle = "Object-oriented programming language";
-
-
-        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
-        searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
-
-        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
-        articlePageObject.waitForTitleElement();
-        String first_article_title = articlePageObject.getArticleTitle();
-        articlePageObject.createMyListAndAddArticleToMyList(name_of_folder);
-        articlePageObject.closeArticle();
-
-        searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("Programming language");
-        articlePageObject.waitForTitleElement();
-        String second_article_title = articlePageObject.getArticleTitle();
-        articlePageObject.addArticleToExistingMyList(name_of_folder);
-        articlePageObject.closeArticle();
-
-        NavigationUI navigationUI = NavigationUIFactory.get(driver);
-        navigationUI.clickMyList();
-
-        MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
-        if (Platform.getInstance().isIOS()){
-            myListPageObject.closeSyncPopUp();
-        }
-        myListPageObject.openFolderByName(name_of_folder);
-        myListPageObject.swipeByArticleToDelete(first_article_title);
-        myListPageObject.waitForArticleToDisappearByTitle(first_article_title);
-        myListPageObject.waitForArticleToAppearByTitle(second_article_title);
-        myListPageObject.openArticleByTitle(second_article_title);
-        assertEquals("The title of the article does not match", articlePageObject.getArticleTitle(), second_article_title);
-    }
-
-    @Test
-    public void testSaveTwoArticles2() {
+    public void testSaveTwoArticles() {
         String name_of_folder = "test";
 
         String firstArticleTitle = "Java (programming language)";
         String secondArticleTitle = "C++";
         String firstArticleSubtitle = "Object-oriented programming language";
         String secondArticleSubtitle = "General-purpose programming language";
+        if(Platform.getInstance().isAndroid()){
+            secondArticleSubtitle = "General purpose high-level programming language";
+        }
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -141,6 +102,14 @@ public class MyListTests extends CoreTestCase {
         }
 
         myListPageObject.swipeByArticleToDelete(firstArticleTitle);
-        myListPageObject.waitForArticleToAppearBySubtitle(secondArticleSubtitle);
+        if(Platform.getInstance().isIOS())
+            myListPageObject.waitForArticleToAppearBySubtitle(secondArticleSubtitle);
+        else
+        {
+            myListPageObject.waitForArticleToDisappearByTitle(firstArticleTitle);
+            myListPageObject.waitForArticleToAppearByTitle(secondArticleTitle);
+        }
     }
+
+
 }
