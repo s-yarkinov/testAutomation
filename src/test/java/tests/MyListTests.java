@@ -16,7 +16,7 @@ public class MyListTests extends CoreTestCase {
     public void testSaveArticle() throws InterruptedException {
         String name_of_folder = "test";
         String subtitle = "Object-oriented programming language";
-        String article_title = "Java";
+        String article_title = "Java (programming language)";
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -25,7 +25,6 @@ public class MyListTests extends CoreTestCase {
 
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.waitForTitleElement();
-//        String article_title = articlePageObject.getArticleTitle();
         if(Platform.getInstance().isAndroid()) {
             articlePageObject.createMyListAndAddArticleToMyList(name_of_folder);
         }
