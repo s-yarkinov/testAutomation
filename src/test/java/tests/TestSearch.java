@@ -1,9 +1,13 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.*;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -23,7 +27,7 @@ public class TestSearch extends CoreTestCase {
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
-        searchPageObject.waitForSearchResult("Object-oriented programming language");
+        searchPageObject.waitForSearchResult("bject-oriented programming language");
     }
 
     @Test
@@ -78,38 +82,24 @@ public class TestSearch extends CoreTestCase {
 
     }
 
-//    @Test
-//    public void testCheckingSearchResults()
-//    {
-//        String searchText = "Java";
-//        mainPageObject.waitForElementAndClick(
-//                By.id("org.wikipedia:id/search_container"),
-//                "Cannot find element",
-//                1
-//        );
-//
-//        mainPageObject.assertElementHasText(
-//                By.id("org.wikipedia:id/search_src_text"),
-//                "Search…",
-//                "Search Field not equals 'Search Wikipedia'"
-//        );
-//
-//        mainPageObject.waitForElementAndSendKeys(
-//                By.id("org.wikipedia:id/search_src_text"),
-//                searchText,
-//                "Text field not found"
-//        );
-//
-//        List<WebElement> searchResult = mainPageObject.waitForElements(
-//                By.id("org.wikipedia:id/page_list_item_title"),
-//                "Results not found"
-//        );
-//
-//        for (WebElement webElement : searchResult) {
-//            assertTrue("The results does not contain '" + searchText + "'",
-//                    webElement.getAttribute("text").contains(searchText));
-//        }
-//    }
+    @Test
+    public void testCheckingSearchResults()
+    {
+        String searchResultsAtr = (Platform.getInstance().isAndroid()) ? "text" : "name";
+        System.out.println(searchResultsAtr);
+        String searchText = "Java";
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("java");
+
+        List<WebElement> searchResult = searchPageObject.getSearchResultElements();
+
+        for (int i=0; i<=2; i++) {
+            System.out.println(searchResult.get(i).getAttribute(searchResultsAtr));
+            assertTrue("The results does not contain '" + searchText + "'",
+                    searchResult.get(i).getAttribute(searchResultsAtr).contains(searchText));
+        }
+    }
 
     @Test
     public void testAmountOfNotEmptySearch() {
@@ -169,4 +159,15 @@ public class TestSearch extends CoreTestCase {
 //
 //        mainPageObject.assertElementPresent(titleOfArticle, "Article title not found");
 //    }
+
+    @Test
+    public void testtest() {
+
+        String article_title = "JavaScript", subtitle = "Programming language";
+
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine(article_title);
+        searchPageObject.waitForElementByTitleAndDescription(article_title, subtitle);
+    }
 }

@@ -1,9 +1,11 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class ArticlePageObject extends MainPageObject{
     protected static String
@@ -22,7 +24,7 @@ abstract public class ArticlePageObject extends MainPageObject{
         return EXISTING_MY_LIST_TPL.replace("{MY_LIST_NAME}", myListName);
     }
 //    TPL
-    public ArticlePageObject(AppiumDriver driver) {
+    public ArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 

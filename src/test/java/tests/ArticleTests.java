@@ -5,6 +5,7 @@ import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -16,6 +17,11 @@ public class ArticleTests extends CoreTestCase {
 //    @BeforeClass
 //    public void logInApp(){
 //        System.out.println("test1");
+//    }
+
+//    @Override
+//    public void setUp(){
+//        System.out.println("From test: ArticleTests");
 //    }
 
     @Test

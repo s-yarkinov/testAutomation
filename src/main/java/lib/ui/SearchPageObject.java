@@ -1,9 +1,11 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.List;
 
@@ -20,6 +22,10 @@ public abstract class SearchPageObject extends MainPageObject{
         CLEAR_SEARCH_FIELD;
 
 
+    public SearchPageObject(RemoteWebDriver driver) {
+        super(driver);
+    }
+
 //    TPL
     private String getSearchResultElement(String substring) {
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
@@ -30,9 +36,7 @@ public abstract class SearchPageObject extends MainPageObject{
         return xpath;
     }
 //    TPL
-    public SearchPageObject(AppiumDriver driver) {
-        super(driver);
-    }
+
 
     public void initSearchInput() {
         this.waitForElementAndClick(
@@ -136,7 +140,13 @@ public abstract class SearchPageObject extends MainPageObject{
         waitForElementPresent(
                 xpath,
                 "Cannot find element: " + xpath);
-        Assert.assertEquals("Cannot find more 3 elements", this.getAmountElements(xpath), 3);
+        Assert.assertEquals("Cannot find more 3 elements", this.getAmountElements(xpath), 1);
+    }
+
+    public List<WebElement> getSearchResultElements() {
+        this.waitForElement(SEARCH_RESULTS, "Search result is empty", 10);
+        List<WebElement> list_of_results = this.waitForElements(SEARCH_RESULTS, "Search result is empty");
+        return list_of_results;
     }
 
 }

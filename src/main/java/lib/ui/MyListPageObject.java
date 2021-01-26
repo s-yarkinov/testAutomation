@@ -1,7 +1,7 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
+import lib.Platform;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class MyListPageObject extends MainPageObject{
 
@@ -12,6 +12,10 @@ abstract public class MyListPageObject extends MainPageObject{
         CLOSE_SYNC_BUTTON,
         CLOSE_SYNC_TEXT,
         LAYOUT_TITLE;
+
+    public MyListPageObject(RemoteWebDriver driver) {
+        super(driver);
+    }
 
     public void isOpen(){
         this.waitForElementPresent(LAYOUT_TITLE, "My List screen is not open");
@@ -28,9 +32,7 @@ abstract public class MyListPageObject extends MainPageObject{
         return ARTICLE_BY_SUBTITLE_TPL.replace("{ARTICLE_SUBTITLE}", article_title);
     }
 
-    public MyListPageObject(AppiumDriver driver) {
-        super(driver);
-    }
+
 
     public void openFolderByName(String name_of_folder) {
         String folder_name_xpath = getFolderXpathByName(name_of_folder);

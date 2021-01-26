@@ -2,6 +2,7 @@ package lib.ui.android;
 
 import io.appium.java_client.AppiumDriver;
 import lib.ui.SearchPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidSearchPageObject extends SearchPageObject {
 
@@ -14,7 +15,7 @@ public class AndroidSearchPageObject extends SearchPageObject {
                 EMPTY_RESULT_LABEL = "xpath://*[@text = 'No results found']";
                 TITLE_AND_SUBTITLE_TPL = "xpath://*[@text = '{TITLE}']/following-sibling::*[@text = '{SUBTITLE}']";
     }
-    public AndroidSearchPageObject(AppiumDriver driver) {
+    public AndroidSearchPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
