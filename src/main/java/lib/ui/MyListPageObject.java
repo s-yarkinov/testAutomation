@@ -11,7 +11,8 @@ abstract public class MyListPageObject extends MainPageObject{
         ARTICLE_BY_SUBTITLE_TPL,
         CLOSE_SYNC_BUTTON,
         CLOSE_SYNC_TEXT,
-        LAYOUT_TITLE;
+        LAYOUT_TITLE,
+        REMOVE_FROM_SAVE_BUTTON;
 
     public MyListPageObject(RemoteWebDriver driver) {
         super(driver);
@@ -27,6 +28,9 @@ abstract public class MyListPageObject extends MainPageObject{
 
     private static String getSavedArticleXpathByArticle(String article_title) {
         return ARTICLE_BY_TITLE_TPL.replace("{ARTICLE_TITLE}", article_title);
+    }
+    private static String getRemoveButtonByType(String article_title) {
+        return REMOVE_FROM_SAVE_BUTTON.replace("{ARTICLE_TITLE}", article_title);
     }
     private static String getSavedArticleXpathBySubtitle(String article_title) {
         return ARTICLE_BY_SUBTITLE_TPL.replace("{ARTICLE_SUBTITLE}", article_title);
@@ -47,14 +51,24 @@ abstract public class MyListPageObject extends MainPageObject{
 
         this.waitForArticleToAppearByTitle(article_title);
         String article_xpath = getSavedArticleXpathByArticle(article_title);
-        this.swipeToLeftElement(
-                article_xpath,
-                "Saved article not found",
-                5
-        );
+        if(Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()) {
+            this.swipeToLeftElement(
+                    article_xpath,
+                    "Saved article not found",
+                    5
+            );
+        }
+        else {
+            String remove_locator = getRemoveButtonByType(article_title);
+            this.waitForElementAndClick(remove_locator, "Cannot click button to remove article from saved", 10);
+        }
 
         if(Platform.getInstance().isIOS()){
             this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find saved article");
+        }
+
+        if(Platform.getInstance().isMw()){
+            driver.navigate().refresh();
         }
 
         waitForArticleToDisappearByTitle(article_title);

@@ -12,6 +12,8 @@ abstract public class ArticlePageObject extends MainPageObject{
         ARTICLE_TITLE,
         FOOTER_ELEMENT,
         OPTIONS_BUTTON,
+        OPTIONS_REMOVE_TO_MY_LIST_BUTTON,
+        OPTIONS_ADD_TO_MY_LIST_BUTTON,
         ADD_TO_MY_LIST_BUTTON,
         ADD_TO_MY_LIST_OVERLAY,
         MY_LIST_NAME_INPUT,
@@ -37,9 +39,12 @@ abstract public class ArticlePageObject extends MainPageObject{
         if (Platform.getInstance().isAndroid()) {
             return title_element.getAttribute("text");
         }
+        else if (Platform.getInstance().isIOS())
         {
             return title_element.getAttribute("name");
         }
+        else
+            return title_element.getText();
 
     }
 
@@ -51,8 +56,15 @@ abstract public class ArticlePageObject extends MainPageObject{
                     40
             );
         }
-        else {
+        else if(Platform.getInstance().isIOS()) {
             this.swipeUpTillElementAppear(
+                    FOOTER_ELEMENT,
+                    "Cannot find the end of article",
+                    40
+            );
+        }
+        else {
+            this.scrollWebPageTillElementNotVisible(
                     FOOTER_ELEMENT,
                     "Cannot find the end of article",
                     40
@@ -97,8 +109,26 @@ abstract public class ArticlePageObject extends MainPageObject{
         );
     }
 
-    public void addArticlesToSaved(){
+    public void addArticlesToSaved() throws InterruptedException {
+        if(Platform.getInstance().isMw()) {
+            this.removeArticleFromSavedIfItAdded();
+        }
+        Thread.sleep(2000);
         this.waitForElementAndClick(ADD_TO_MY_LIST_BUTTON, "Add to saved list button is not found", 1);
+    }
+
+    public void removeArticleFromSavedIfItAdded(){
+        if(this.isElementPresent(OPTIONS_REMOVE_TO_MY_LIST_BUTTON)) {
+            this.waitForElementAndClick(
+                    OPTIONS_REMOVE_TO_MY_LIST_BUTTON,
+                    "Cannot click button to remove an article from saved",
+                    5
+            );
+            this.waitForElementPresent(
+                    ADD_TO_MY_LIST_BUTTON,
+                    "Cannot find 'ADD TO MY LIST BUTTON' after removing it from this list before"
+            );
+        }
     }
 
     public void addArticleToExistingMyList(String existingListName) {
@@ -123,11 +153,15 @@ abstract public class ArticlePageObject extends MainPageObject{
     }
 
     public void closeArticle() {
-        this.waitForElementAndClick(
-                CLOSE_ARTICLE_BUTTON,
-                "Element 'X' not found",
-                5
-        );
+        if(Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
+            this.waitForElementAndClick(
+                    CLOSE_ARTICLE_BUTTON,
+                    "Element 'X' not found",
+                    5
+            );
+        }
+        else
+            System.out.println("Method closeArticle() do nothing for platform " + Platform.getInstance().getPlatformVar());
         if(Platform.getInstance().isIOS()) {
             SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
             searchPageObject.clickCancelSearch();

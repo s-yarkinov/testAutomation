@@ -12,10 +12,15 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
 public class MyListTests extends CoreTestCase {
+
+    public static final String
+        login = "Yarkinov",
+        password = "higafe64";
+
     @Test
     public void testSaveArticle() throws InterruptedException {
         String name_of_folder = "test";
-        String subtitle = "Object-oriented programming language";
+        String subtitle = "bject-oriented programming language";
         String article_title = "Java (programming language)";
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
@@ -30,9 +35,22 @@ public class MyListTests extends CoreTestCase {
         }
         else
             articlePageObject.addArticlesToSaved();
+
+        if(Platform.getInstance().isMw()) {
+            AuthorizationPageObject authorizationPageObject = new AuthorizationPageObject(driver);
+            authorizationPageObject.clickAuthButton();
+            authorizationPageObject.enterLoginData(login, password);
+            authorizationPageObject.submitForm();
+
+            articlePageObject.waitForTitleElement();
+            assertEquals("We are not on the same page after login", article_title, articlePageObject.getArticleTitle());
+            articlePageObject.addArticlesToSaved();
+        }
+
         articlePageObject.closeArticle();
 
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
+        navigationUI.openNavigation();
         navigationUI.clickMyList();
 
         MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
@@ -50,7 +68,7 @@ public class MyListTests extends CoreTestCase {
     }
 
     @Test
-    public void testSaveTwoArticles() {
+    public void testSaveTwoArticles() throws InterruptedException {
         String name_of_folder = "test";
 
         String firstArticleTitle = "Java (programming language)";

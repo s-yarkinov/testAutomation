@@ -4,9 +4,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import lib.Platform;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -83,6 +81,27 @@ public class MainPageObject {
         );
     }
 
+    public boolean isElementPresent(String locator){
+        return getAmountElements(locator)>0;
+    }
+
+    public void tryClickElementWithFewAttempts(String locator, String err_msg, int amount_attempts){
+        int current_attempts = 0;
+        boolean need_more_attempts = true;
+
+        while (need_more_attempts) {
+            try {
+                this.waitForElementAndClick(locator, err_msg,1);
+                need_more_attempts = false;
+            } catch (Exception e) {
+                if(current_attempts>amount_attempts) {
+                    this.waitForElementAndClick(locator, err_msg, 1);
+                }
+            }
+            ++ amount_attempts;
+        }
+    }
+
     public WebElement waitForElementAndClear(String locator, String err_msg) {
         WebElement element = waitForElementPresent(locator, err_msg);
         element.clear();
@@ -146,6 +165,26 @@ public class MainPageObject {
         }
     }
 
+    public void scrollWebPageUp(){
+        if(Platform.getInstance().isMw()){
+            JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+            jsExecutor.executeScript("window.scrollBy(0, 250)");
+        }
+        else
+            System.out.println("Method scrollWebPageUp() does nothing for platform " + Platform.getInstance().getPlatformVar());
+    }
+
+    public void scrollWebPageTillElementNotVisible(String locator, String error_msg, int max_swiped) {
+        int alreadySwiped = 0;
+        WebElement element = this.waitForElementPresent(locator, error_msg);
+        while (this.isElementLocatedOnTheScreen(locator)) {
+            scrollWebPageUp();
+            ++alreadySwiped;
+            if(alreadySwiped > max_swiped)
+                Assert.assertTrue(error_msg, element.isDisplayed());
+        }
+    }
+
     public void swipeUpTillElementAppear(String locator, String err_msg, int max_swipes) {
         int already_swiped = 0;
         while (!this.isElementLocatedOnTheScreen(locator)) {
@@ -159,6 +198,11 @@ public class MainPageObject {
 
     public boolean isElementLocatedOnTheScreen(String locator) {
         int element_location_by_y = this.waitForElementPresent(locator, "Element:" + locator + " not found").getLocation().getY();
+        if(Platform.getInstance().isMw()){
+            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+            Object js_result = javascriptExecutor.executeScript("return window.pageYOffset");
+            element_location_by_y -= Integer.parseInt(js_result.toString());
+        }
         int screen_size_by_y = driver.manage().window().getSize().height;
         return element_location_by_y<screen_size_by_y;
     }
@@ -208,7 +252,7 @@ public class MainPageObject {
 
     public int getAmountElements(String locator) {
         By by = this.getLocatorByString(locator);
-        this.waitForElementPresent(locator, "Result elements not found");
+//        this.waitForElementPresent(locator, "Result elements not found");
         List<WebElement> listOfElement = driver.findElements(by);
         return listOfElement.size();
     }
