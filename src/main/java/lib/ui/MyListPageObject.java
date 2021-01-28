@@ -12,7 +12,8 @@ abstract public class MyListPageObject extends MainPageObject{
         CLOSE_SYNC_BUTTON,
         CLOSE_SYNC_TEXT,
         LAYOUT_TITLE,
-        REMOVE_FROM_SAVE_BUTTON;
+        REMOVE_FROM_SAVE_BUTTON,
+        BEGIN_ARTICLE_TPL;
 
     public MyListPageObject(RemoteWebDriver driver) {
         super(driver);
@@ -34,6 +35,10 @@ abstract public class MyListPageObject extends MainPageObject{
     }
     private static String getSavedArticleXpathBySubtitle(String article_title) {
         return ARTICLE_BY_SUBTITLE_TPL.replace("{ARTICLE_SUBTITLE}", article_title);
+    }
+
+    private static String getSavedArticleXpathByStartText(String start_text) {
+        return BEGIN_ARTICLE_TPL.replace("{BEGIN_TEXT}", start_text);
     }
 
 
@@ -69,6 +74,7 @@ abstract public class MyListPageObject extends MainPageObject{
         }
 
         if(Platform.getInstance().isMw()){
+            driver.navigate().refresh();
             driver.navigate().refresh();
         }
 
@@ -107,6 +113,12 @@ abstract public class MyListPageObject extends MainPageObject{
                 article_bySubtitle_xpath,
                 "Saved article not present by title '" + article_subtitle + "'"
         );
+    }
+
+    public void checkRestArticleByStartText(String article_title, String start_text) {
+        this.openArticleByTitle(article_title);
+        String start_textXpath = getSavedArticleXpathByStartText(start_text);
+        this.waitForElementPresent(start_textXpath, "Cannot find article start text");
     }
 
     public void openArticleByTitle(String article_title) {

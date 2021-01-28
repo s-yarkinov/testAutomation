@@ -11,5 +11,6 @@ public class MWMyListPageObject extends MyListPageObject {
     static {
         ARTICLE_BY_TITLE_TPL = "xpath://h3[contains(text(), '{ARTICLE_TITLE}')]";
         REMOVE_FROM_SAVE_BUTTON = "xpath://h3[contains(text(), '{ARTICLE_TITLE}')]/../../a[contains(@class, 'watched')]";
+        BEGIN_ARTICLE_TPL = "xpath://p[contains(class, mw-empty-elt)]//b[contains(text(), '{BEGIN_TEXT}')]";
     }
 }

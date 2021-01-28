@@ -73,6 +73,7 @@ public class MyListTests extends CoreTestCase {
 
         String firstArticleTitle = "Java (programming language)";
         String secondArticleTitle = "C++";
+        String start_text = secondArticleTitle;
         String firstArticleSubtitle = "Object-oriented programming language";
         String secondArticleSubtitle = "General-purpose programming language";
         if(Platform.getInstance().isAndroid()){
@@ -92,6 +93,17 @@ public class MyListTests extends CoreTestCase {
         }
         else
             articlePageObject.addArticlesToSaved();
+
+        if(Platform.getInstance().isMw()) {
+            AuthorizationPageObject authorizationPageObject = new AuthorizationPageObject(driver);
+            authorizationPageObject.clickAuthButton();
+            authorizationPageObject.enterLoginData(login, password);
+            authorizationPageObject.submitForm();
+
+            articlePageObject.waitForTitleElement();
+            assertEquals("We are not on the same page after login", article_title, articlePageObject.getArticleTitle());
+            articlePageObject.addArticlesToSaved();
+        }
         articlePageObject.closeArticle();
 
         searchPageObject.initSearchInput();
@@ -101,12 +113,17 @@ public class MyListTests extends CoreTestCase {
         if(Platform.getInstance().isIOS()){
             articlePageObject.addArticlesToSaved();
         }
-        else {
+        else if(Platform.getInstance().isAndroid()){
             articlePageObject.addArticleToExistingMyList(name_of_folder);
         }
+        else
+            articlePageObject.addArticlesToSaved();
+
+
         articlePageObject.closeArticle();
 
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
+        navigationUI.openNavigation();
         navigationUI.clickMyList();
 
         MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
@@ -120,9 +137,14 @@ public class MyListTests extends CoreTestCase {
         }
 
         myListPageObject.swipeByArticleToDelete(firstArticleTitle);
+
+        if(Platform.getInstance().isMw()) {
+            myListPageObject.checkRestArticleByStartText(secondArticleTitle, start_text);
+        }
+
         if(Platform.getInstance().isIOS())
             myListPageObject.waitForArticleToAppearBySubtitle(secondArticleSubtitle);
-        else
+        else if(Platform.getInstance().isAndroid())
         {
             myListPageObject.waitForArticleToDisappearByTitle(firstArticleTitle);
             myListPageObject.waitForArticleToAppearByTitle(secondArticleTitle);
