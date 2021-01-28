@@ -47,7 +47,7 @@ abstract public class MyListPageObject extends MainPageObject{
         );
     }
 
-    public void swipeByArticleToDelete(String article_title) {
+    public void swipeByArticleToDelete(String article_title) throws InterruptedException {
 
         this.waitForArticleToAppearByTitle(article_title);
         String article_xpath = getSavedArticleXpathByArticle(article_title);
@@ -60,6 +60,7 @@ abstract public class MyListPageObject extends MainPageObject{
         }
         else {
             String remove_locator = getRemoveButtonByType(article_title);
+            Thread.sleep(1000);
             this.waitForElementAndClick(remove_locator, "Cannot click button to remove article from saved", 10);
         }
 
