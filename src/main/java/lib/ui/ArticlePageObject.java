@@ -36,7 +36,6 @@ abstract public class ArticlePageObject extends MainPageObject{
 
     public String getArticleTitle() {
         WebElement title_element = waitForTitleElement();
-        screenshot(this.takeScreenshot("article_title"));
         if (Platform.getInstance().isAndroid()) {
             return title_element.getAttribute("text");
         }
