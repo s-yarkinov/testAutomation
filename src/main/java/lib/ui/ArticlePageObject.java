@@ -9,23 +9,23 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class ArticlePageObject extends MainPageObject{
     protected static String
-        ARTICLE_TITLE,
-        FOOTER_ELEMENT,
-        OPTIONS_BUTTON,
-        OPTIONS_REMOVE_TO_MY_LIST_BUTTON,
-        OPTIONS_ADD_TO_MY_LIST_BUTTON,
-        ADD_TO_MY_LIST_BUTTON,
-        ADD_TO_MY_LIST_OVERLAY,
-        MY_LIST_NAME_INPUT,
-        MY_LIST_OK_BUTTON,
-        CLOSE_ARTICLE_BUTTON,
-        EXISTING_MY_LIST_TPL;
+            ARTICLE_TITLE,
+            FOOTER_ELEMENT,
+            OPTIONS_BUTTON,
+            OPTIONS_REMOVE_TO_MY_LIST_BUTTON,
+            OPTIONS_ADD_TO_MY_LIST_BUTTON,
+            ADD_TO_MY_LIST_BUTTON,
+            ADD_TO_MY_LIST_OVERLAY,
+            MY_LIST_NAME_INPUT,
+            MY_LIST_OK_BUTTON,
+            CLOSE_ARTICLE_BUTTON,
+            EXISTING_MY_LIST_TPL;
 
-//    TPL
+    //    TPL
     public String getXpathExistingMyList(String myListName) {
         return EXISTING_MY_LIST_TPL.replace("{MY_LIST_NAME}", myListName);
     }
-//    TPL
+    //    TPL
     public ArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }

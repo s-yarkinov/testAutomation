@@ -37,7 +37,6 @@ public abstract class SearchPageObject extends MainPageObject{
     }
 //    TPL
 
-
     public void initSearchInput() {
         this.waitForElementAndClick(
                 SEARCH_INIT_ELEMENT,
