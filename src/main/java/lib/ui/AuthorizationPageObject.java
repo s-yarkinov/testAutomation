@@ -1,5 +1,6 @@
 package lib.ui;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AuthorizationPageObject extends MainPageObject{
@@ -14,7 +15,7 @@ public class AuthorizationPageObject extends MainPageObject{
         SUBMIT_BUTTON = "css:#wpLoginAttempt",
         OPTION_TO_SAVE_WITHOUT_AUTH = "ul#page-actions>li#page-actions-watch>a#ca-watch.mw-ui-icon-wikimedia-star-base20";
 
-
+    @Step("Click on the authorization button")
     public void clickAuthButton() throws InterruptedException {
             Thread.sleep(1000);
 //            this.waitForElementAndClick(OPTION_TO_SAVE_WITHOUT_AUTH, "Cannot call auth menu", 10);
@@ -30,13 +31,13 @@ public class AuthorizationPageObject extends MainPageObject{
                 5
         );
     }
-
+    @Step("Login and password input")
     public void enterLoginData(String login, String pass) throws InterruptedException {
         Thread.sleep(1000);
         this.waitForElementAndSendKeys(LOGIN_INPUT, login, "Login filed not found");
         this.waitForElementAndSendKeys(PASS_INPUT, pass, "Password filed not found");
     }
-
+    @Step("Submit form")
     public void submitForm() {
         this.waitForElementAndClick(SUBMIT_BUTTON, "Cannot find 'SUBMIT' button", 10);
     }

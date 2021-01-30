@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.ArticlePageObject;
@@ -35,6 +37,11 @@ public class ChangeAppConditionTests extends CoreTestCase {
     }
 
     @Test
+    @Severity(value = SeverityLevel.MINOR)
+    @Features(value = {@Feature(value = "search"), @Feature(value = "Article"), @Feature("Cancel button in search page"), @Feature("Search result")})
+    @DisplayName("Test checking amount in empty search results")
+    @Description("Validate amount in empty search results")
+    @Step("Starting testAmountOfEmptySearch")
     public void testCheckSearchInBackground() {
         if(Platform.getInstance().isMw())
             return;

@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.*;
@@ -18,6 +20,12 @@ public class MyListTests extends CoreTestCase {
         password = "higafe64";
 
     @Test
+    @Severity(value = SeverityLevel.CRITICAL)
+    @Features(value = {@Feature(value = "search"), @Feature(value = "Article"), @Feature("Add article to the saved list"), @Feature("Authorization"),
+    @Feature("Delete article")})
+    @DisplayName("Compare article title with expected one")
+    @Description("We look for an article with the title \"Java\", and then make sure that it appears in the search")
+    @Step("Starting testCompareArticleTitle")
     public void testSaveArticle() throws InterruptedException {
         String name_of_folder = "test";
         String subtitle = "bject-oriented programming language";
@@ -68,6 +76,12 @@ public class MyListTests extends CoreTestCase {
     }
 
     @Test
+    @Severity(value = SeverityLevel.CRITICAL)
+    @Features(value = {@Feature(value = "search"), @Feature(value = "Article"), @Feature("Add article to the saved list"), @Feature("Authorization"),
+            @Feature("Delete article")})
+    @DisplayName("Compare article title with expected one")
+    @Description("We look for an article with the title \"Java\", and then make sure that it appears in the search")
+    @Step("Starting testCompareArticleTitle")
     public void testSaveTwoArticles() throws InterruptedException {
         String name_of_folder = "test";
 

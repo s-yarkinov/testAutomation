@@ -1,5 +1,6 @@
 package lib.ui;
 
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -42,7 +43,7 @@ abstract public class MyListPageObject extends MainPageObject{
     }
 
 
-
+    @Step("Open folder by name")
     public void openFolderByName(String name_of_folder) {
         String folder_name_xpath = getFolderXpathByName(name_of_folder);
         this.waitForElementAndClick(
@@ -51,7 +52,7 @@ abstract public class MyListPageObject extends MainPageObject{
                 5
         );
     }
-
+    @Step("Swipe article to delete")
     public void swipeByArticleToDelete(String article_title) throws InterruptedException {
 
         this.waitForArticleToAppearByTitle(article_title);
@@ -80,7 +81,7 @@ abstract public class MyListPageObject extends MainPageObject{
 
         waitForArticleToDisappearByTitle(article_title);
     }
-
+    @Step("Wait for article to disappear by title")
     public void waitForArticleToDisappearByTitle(String article_title) {
         String article_xpath = getSavedArticleXpathByArticle(article_title);
         this.waitForElementNotPresent(
@@ -89,7 +90,7 @@ abstract public class MyListPageObject extends MainPageObject{
                 5
         );
     }
-
+    @Step("Wait for article to disappear by subtitle")
     public void waitForArticleToDisappearBySubtitle(String article_subtitle) {
         String article_xpath = getSavedArticleXpathByArticle(article_subtitle);
         this.waitForElementNotPresent(
@@ -98,7 +99,7 @@ abstract public class MyListPageObject extends MainPageObject{
                 5
         );
     }
-
+    @Step("Wait for article to appear by title")
     public void waitForArticleToAppearByTitle(String article_title) {
         String article_xpath = getSavedArticleXpathByArticle(article_title);
         this.waitForElementPresent(
@@ -106,7 +107,7 @@ abstract public class MyListPageObject extends MainPageObject{
                 "Saved article not present by title '" + article_title + "'"
         );
     }
-
+    @Step("Wait for article to appear by subtitle")
     public void waitForArticleToAppearBySubtitle(String article_subtitle) {
         String article_bySubtitle_xpath = getSavedArticleXpathBySubtitle(article_subtitle);
         this.waitForElementPresent(
@@ -114,20 +115,20 @@ abstract public class MyListPageObject extends MainPageObject{
                 "Saved article not present by title '" + article_subtitle + "'"
         );
     }
-
+    @Step("Check rest article to appear by start text in article page")
     public void checkRestArticleByStartText(String article_title, String start_text) {
         this.openArticleByTitle(article_title);
         String start_textXpath = getSavedArticleXpathByStartText(start_text);
         this.waitForElementPresent(start_textXpath, "Cannot find article start text");
     }
-
+    @Step("Open article by title")
     public void openArticleByTitle(String article_title) {
         String article_xpath = getSavedArticleXpathByArticle(article_title);
         this.waitForElementAndClick(
                 article_xpath,
                 "Article with title:'" + article_title + "' not found", 10);
     }
-
+    @Step("Close article PopUp for ios")
     public void closeSyncPopUp(){
         this.waitForElementPresent(CLOSE_SYNC_TEXT, "Text 'Sync your saved articles?' not found");
         this.waitForElementAndClick(CLOSE_SYNC_BUTTON, "Button 'Close sync pop-up' not found", 10);

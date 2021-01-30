@@ -1,5 +1,6 @@
 package lib.ui;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class WelcomePageObject extends MainPageObject{
@@ -20,6 +21,7 @@ public class WelcomePageObject extends MainPageObject{
         return FIND_TEXT_BY_NAME_TPL.replace("{TEXT}", value);
     }
 //    TPL
+    @Step("Wait for lear more link")
     public void waitForLearnMoreLink() {
         String elementXpath = getFindTextByNameTplXpath("Learn more about Wikipedia");
         this.waitForElementPresent(
@@ -27,14 +29,14 @@ public class WelcomePageObject extends MainPageObject{
                 "'Learn more about Wikipedia' link not found"
         );
     }
-
+    @Step("Click next button")
     public void clickNextButton() {
         this.waitForElementAndClick(NEXT_BUTTON,
                 "'Next Button' not found",
                 5
         );
     }
-
+    @Step("Wait new ways to explore text")
     public void waiteNewWaysToExploreText() {
         String elementXpath = getFindTextByNameTplXpath("New ways to explore");
         this.waitForElementPresent(
@@ -42,6 +44,7 @@ public class WelcomePageObject extends MainPageObject{
                 "'New ways to explore' not found"
         );
     }
+    @Step("Wait search in over text")
     public void waiteSearchInOverText() {
         String elementXpath = getFindTextByNameTplXpath("Search in over 300 languages");
         this.waitForElementPresent(
@@ -49,13 +52,14 @@ public class WelcomePageObject extends MainPageObject{
                 "'Search in over 300 languages' not found"
         );
     }
+    @Step ("Wait learn more link")
     public void waitLearnMoreLink() {
         String elementXpath = getFindTextByNameTplXpath("Learn more about data collected");
         this.waitForElementPresent(
                 elementXpath,
                 "'Learn more about data collected' not found");
     }
-
+    @Step("Click get started button")
     public void ClickGetStartedButton() {
         this.waitForElementAndClick(
                 GET_STARTED_BUTTON,
@@ -63,7 +67,7 @@ public class WelcomePageObject extends MainPageObject{
                 5
         );
     }
-
+    @Step("Click to the skip button")
     public void clickSkip() {
         this.waitForElementAndClick(SKIP_BUTTON, "Cannot find and click Skip button", 10);
     }

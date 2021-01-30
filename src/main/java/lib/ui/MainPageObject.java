@@ -3,6 +3,7 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.qameta.allure.Attachment;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -31,7 +32,7 @@ public class MainPageObject {
         this.driver = driver;
     }
 
-
+    @Step("Assert element present")
     public WebElement assertElementPresent(By by, String err_msg) {
 
         try {
@@ -44,7 +45,7 @@ public class MainPageObject {
         }
     }
 
-
+    @Step("Wait for element")
     public WebElement waitForElement(String locator, String error_msg, long timeoutSeconds) {
         By by = this.getLocatorByString(locator);
 
@@ -62,23 +63,26 @@ public class MainPageObject {
         return elements;
     }
 
-
+    @Step("Wait for element present")
     public WebElement waitForElementPresent(String locator, String error_msg) {
         return  waitForElement(locator, error_msg, 15);
     }
 
+    @Step("Wait for element and click")
     public WebElement waitForElementAndClick(String locator, String err_msg, long timeoutSeconds){
         WebElement element = waitForElementPresent(locator, err_msg);
         element.click();
         return element;
     }
 
+    @Step("Wait for element and send keys")
     public WebElement waitForElementAndSendKeys(String locator, String value, String err_msg){
         WebElement element = waitForElementPresent(locator, err_msg);
         element.sendKeys(value);
         return element;
     }
 
+    @Step("Wait for element not present")
     public boolean waitForElementNotPresent(String locator, String err_msg, long timeoutSeconds){
         By by = this.getLocatorByString(locator);
         WebDriverWait wait = new WebDriverWait(driver, timeoutSeconds);
@@ -88,9 +92,11 @@ public class MainPageObject {
         );
     }
 
+    @Step("Check is element present")
     public boolean isElementPresent(String locator){
         return getAmountElements(locator)>0;
     }
+
 
     public void tryClickElementWithFewAttempts(String locator, String err_msg, int amount_attempts){
         int current_attempts = 0;
@@ -109,12 +115,15 @@ public class MainPageObject {
         }
     }
 
+    @Step("Wait for element and clear")
     public WebElement waitForElementAndClear(String locator, String err_msg) {
         WebElement element = waitForElementPresent(locator, err_msg);
         element.clear();
         return element;
     }
 
+
+    @Step("Assert element has text")
     public void assertElementHasText(String locator, String expectedValue, String err_msg) {
 
         WebElement element = waitForElement(
@@ -131,6 +140,7 @@ public class MainPageObject {
         );
     }
 
+    @Step("Swipe up")
     public void swipeUp(int timeOfSwipe) {
         if(driver instanceof AppiumDriver) {
             TouchAction action = new TouchAction((AppiumDriver)driver);
@@ -152,6 +162,8 @@ public class MainPageObject {
         swipeUp(200);
     }
 
+
+    @Step("Swipe up to find element")
     public void swipeUpToFindElement(String locator, String err_msg, int maxSwipes) {
         By by = this.getLocatorByString(locator);
 
@@ -172,6 +184,7 @@ public class MainPageObject {
         }
     }
 
+    @Step("Scroll WebPageUp")
     public void scrollWebPageUp(){
         if(Platform.getInstance().isMw()){
             JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
@@ -181,6 +194,7 @@ public class MainPageObject {
             System.out.println("Method scrollWebPageUp() does nothing for platform " + Platform.getInstance().getPlatformVar());
     }
 
+    @Step("Scroll web page to till element not visible")
     public void scrollWebPageTillElementNotVisible(String locator, String error_msg, int max_swiped) {
         int alreadySwiped = 0;
         WebElement element = this.waitForElementPresent(locator, error_msg);
@@ -192,6 +206,7 @@ public class MainPageObject {
         }
     }
 
+    @Step("Swipe up till Element appear")
     public void swipeUpTillElementAppear(String locator, String err_msg, int max_swipes) {
         int already_swiped = 0;
         while (!this.isElementLocatedOnTheScreen(locator)) {
@@ -203,6 +218,7 @@ public class MainPageObject {
         }
     }
 
+    @Step("Check is element locate on the screen")
     public boolean isElementLocatedOnTheScreen(String locator) {
         int element_location_by_y = this.waitForElementPresent(locator, "Element:" + locator + " not found").getLocation().getY();
         if(Platform.getInstance().isMw()){
@@ -214,6 +230,7 @@ public class MainPageObject {
         return element_location_by_y<screen_size_by_y;
     }
 
+    @Step("Swipe to left element")
     public void swipeToLeftElement(String locator, String err_msg, long timeoutSeconds) {
         if(driver instanceof AppiumDriver) {
             WebElement element = waitForElement(locator, err_msg, timeoutSeconds);
@@ -240,6 +257,7 @@ public class MainPageObject {
         }
     }
 
+    @Step("Click element to the right upper corner")
     public void clickElementToTheRightUpperCorner(String locator, String err_msg){
         if(driver instanceof AppiumDriver) {
             WebElement element = this.waitForElementPresent(locator + "/..", err_msg);
@@ -257,6 +275,7 @@ public class MainPageObject {
         }
     }
 
+    @Step("Get amount of elements")
     public int getAmountElements(String locator) {
         By by = this.getLocatorByString(locator);
 //        this.waitForElementPresent(locator, "Result elements not found");
@@ -265,6 +284,7 @@ public class MainPageObject {
     }
 
 
+    @Step("Assert element not present")
     public void assertElementNotPresent(String locator, String err_msg) {
         int amountElements = getAmountElements(locator);
         if(amountElements > 0) {
@@ -273,6 +293,7 @@ public class MainPageObject {
         }
     }
 
+    @Step("Wait element and get attribute")
     public String waitElementAndGetAttribute(String locator, String attribute) {
         return waitForElement(
                 locator,
@@ -281,6 +302,7 @@ public class MainPageObject {
         ).getAttribute(attribute);
     }
 
+    @Step("Get located by string")
     private By getLocatorByString(String locator_with_type) {
         String[] exploded_locator = locator_with_type.split(Pattern.quote(":"), 2);
 
@@ -301,6 +323,7 @@ public class MainPageObject {
             throw new IllegalArgumentException("Cannot get type of locator. Locator: " + locator_with_type);
     }
 
+    @Step("Take screen")
     public String takeScreenshot(String name) {
         TakesScreenshot ts = (TakesScreenshot) this.driver;
         File sourse = ts.getScreenshotAs(OutputType.FILE);

@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -36,7 +37,7 @@ public abstract class SearchPageObject extends MainPageObject{
         return xpath;
     }
 //    TPL
-
+    @Step("Initialization and click on the search field")
     public void initSearchInput() {
         this.waitForElementAndClick(
                 SEARCH_INIT_ELEMENT,
@@ -50,21 +51,21 @@ public abstract class SearchPageObject extends MainPageObject{
             );
         }
     }
-
+    @Step("Entering data into the search bar")
     public void typeSearchLine(String search_line) {
         this.waitForElementAndSendKeys(SEARCH_INPUT,
                 search_line,
                 "Cannot find 'Search input' element"
         );
     }
-
+    @Step("Waiting for search results to appear")
     public void waitForSearchResult(String substring) {
         String search_result_xpath = getSearchResultElement(substring);
         this.waitForElementPresent(search_result_xpath,
                 "Cannot find search result with substring: '" + substring + "'"
         );
     }
-
+    @Step("Go to article by description")
     public void clickByArticleWithSubstring(String substring) {
         String search_result_xpath = getSearchResultElement(substring);
         this.waitForElementAndClick(
@@ -73,14 +74,14 @@ public abstract class SearchPageObject extends MainPageObject{
                 10
         );
     }
-
+    @Step("Waiting for the Cancel button to appear")
     public void waitForCancelButtonToAppear() {
         this.waitForElementPresent(
                 SEARCH_CANCEL_BUTTON,
                 "Cannot find Cancel button"
         );
     }
-
+    @Step("Waiting for the Cancel button to be disappear")
     public void waitForCancelButtonToDisappear() {
         this.waitForElementNotPresent(
                 SEARCH_CANCEL_BUTTON,
@@ -88,7 +89,7 @@ public abstract class SearchPageObject extends MainPageObject{
                 5
         );
     }
-
+    @Step("Click on the \"Cancel\" button")
     public void clickCancelSearch() {
             this.waitForElementAndClick(
                     SEARCH_CANCEL_BUTTON,
@@ -116,14 +117,14 @@ public abstract class SearchPageObject extends MainPageObject{
     public int getAmountOfFoundArticles() {
         return this.getAmountElements(SEARCH_RESULTS);
     }
-
+    @Step("Waiting for text with no results")
     public void waitForEmptyResultsLabel() {
         waitForElementPresent(
                 EMPTY_RESULT_LABEL,
                 "Cannot find EMPTY_RESULT_LABEL"
         );
     }
-
+    @Step("Check assertThereIsNoResultOfSearch")
     public void assertThereIsNoResultOfSearch() {
         List<WebElement> elements = driver.findElements(By.xpath("//XCUIElementTypeLink"));
         System.out.println("Search result elements" + elements.size());
@@ -133,7 +134,7 @@ public abstract class SearchPageObject extends MainPageObject{
                 5
         );
     }
-
+    @Step("Waiting for a search result by title and subtitle")
     public void waitForElementByTitleAndDescription(String title, String description) {
         String xpath = getSearchResultByTitleAndDescription(title, description);
         waitForElementPresent(

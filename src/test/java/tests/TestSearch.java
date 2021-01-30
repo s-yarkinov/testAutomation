@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.*;
@@ -22,6 +24,11 @@ public class TestSearch extends CoreTestCase {
 
 
     @Test
+    @Severity(value = SeverityLevel.CRITICAL)
+    @Features(value = {@Feature(value = "search"), @Feature(value = "Article")})
+    @DisplayName("Search article")
+    @Description("Checking the search on the page")
+    @Step("Starting testSearch")
     public void testSearch() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
@@ -31,6 +38,11 @@ public class TestSearch extends CoreTestCase {
     }
 
     @Test
+    @Severity(value = SeverityLevel.CRITICAL)
+    @Features(value = {@Feature(value = "search"), @Feature(value = "Article"), @Feature("Canceling search field")})
+    @DisplayName("Search cancel search question")
+    @Description("Validate canceling search field")
+    @Step("Starting testCancelSearch")
     public void testCancelSearch() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
@@ -61,6 +73,11 @@ public class TestSearch extends CoreTestCase {
 //    }
 
     @Test
+    @Severity(value = SeverityLevel.MINOR)
+    @Features(value = {@Feature(value = "search"), @Feature(value = "Article"), @Feature("Cancel button in search page")})
+    @DisplayName("Test cancel")
+    @Description("Validate cancel button")
+    @Step("Starting testCancel")
     public void testCancel() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
@@ -83,6 +100,11 @@ public class TestSearch extends CoreTestCase {
     }
 
     @Test
+    @Severity(value = SeverityLevel.CRITICAL)
+    @Features(value = {@Feature(value = "search"), @Feature(value = "Article"), @Feature("Cancel button in search page"), @Feature("Search result")})
+    @DisplayName("Test checking search results")
+    @Description("Validate search results")
+    @Step("Starting testCheckingSearchResults")
     public void testCheckingSearchResults()
     {
         String searchResultsAtr = (Platform.getInstance().isAndroid()) ? "text" : "name";
@@ -102,6 +124,11 @@ public class TestSearch extends CoreTestCase {
     }
 
     @Test
+    @Severity(value = SeverityLevel.NORMAL)
+    @Features(value = {@Feature(value = "search"), @Feature(value = "Article"), @Feature("Cancel button in search page"), @Feature("Search result")})
+    @DisplayName("Test checking empty search results")
+    @Description("Validate empty search results")
+    @Step("Starting testAmountOfNotEmptySearch")
     public void testAmountOfNotEmptySearch() {
         String searchLine = "Linkin park";
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
@@ -115,7 +142,13 @@ public class TestSearch extends CoreTestCase {
         );
     }
 
+
     @Test
+    @Severity(value = SeverityLevel.MINOR)
+    @Features(value = {@Feature(value = "search"), @Feature(value = "Article"), @Feature("Cancel button in search page"), @Feature("Search result")})
+    @DisplayName("Test checking amount in empty search results")
+    @Description("Validate amount in empty search results")
+    @Step("Starting testAmountOfEmptySearch")
     public void testAmountOfEmptySearch() {
         String searchLine = "as2d1as2d1a2s1d2";
 
@@ -160,14 +193,5 @@ public class TestSearch extends CoreTestCase {
 //        mainPageObject.assertElementPresent(titleOfArticle, "Article title not found");
 //    }
 
-    @Test
-    public void testtest() {
 
-        String article_title = "JavaScript", subtitle = "Programming language";
-
-        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
-        searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine(article_title);
-        searchPageObject.waitForElementByTitleAndDescription(article_title, subtitle);
-    }
 }

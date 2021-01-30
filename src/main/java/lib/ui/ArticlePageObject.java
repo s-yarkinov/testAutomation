@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.openqa.selenium.By;
@@ -48,7 +49,7 @@ abstract public class ArticlePageObject extends MainPageObject{
             return title_element.getText();
 
     }
-
+    @Step("Swipe to the footer")
     public void swipeToFooter() {
         if(Platform.getInstance().isAndroid()) {
             this.swipeUpToFindElement(
@@ -72,7 +73,7 @@ abstract public class ArticlePageObject extends MainPageObject{
             );
         }
     }
-
+    @Step("Created a reading list and added an article there")
     public void createMyListAndAddArticleToMyList(String name_of_folder) {
         this.waitForElementAndClick(
                 OPTIONS_BUTTON,
@@ -109,7 +110,7 @@ abstract public class ArticlePageObject extends MainPageObject{
                 5
         );
     }
-
+    @Step("Add article to the saved list")
     public void addArticlesToSaved() throws InterruptedException {
         if(Platform.getInstance().isMw()) {
             this.removeArticleFromSavedIfItAdded();
@@ -117,7 +118,7 @@ abstract public class ArticlePageObject extends MainPageObject{
         Thread.sleep(2000);
         this.waitForElementAndClick(ADD_TO_MY_LIST_BUTTON, "Add to saved list button is not found", 1);
     }
-
+    @Step("Removed article from Saved if it attached")
     public void removeArticleFromSavedIfItAdded(){
         if(this.isElementPresent(OPTIONS_REMOVE_TO_MY_LIST_BUTTON)) {
             this.waitForElementAndClick(
@@ -131,7 +132,7 @@ abstract public class ArticlePageObject extends MainPageObject{
             );
         }
     }
-
+    @Step("Add article to existing my list")
     public void addArticleToExistingMyList(String existingListName) {
         this.waitForElementAndClick(
                 OPTIONS_BUTTON,
@@ -152,7 +153,7 @@ abstract public class ArticlePageObject extends MainPageObject{
                 5
         );
     }
-
+    @Step("Closed the article")
     public void closeArticle() {
         if(Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
             this.waitForElementAndClick(
@@ -168,7 +169,7 @@ abstract public class ArticlePageObject extends MainPageObject{
             searchPageObject.clickCancelSearch();
         }
     }
-
+    @Step("Check if the article is on the page")
     public void assertTitleIsPresent() {
         this.assertElementPresent(By.id(ARTICLE_TITLE), "Title is not present");
     }
